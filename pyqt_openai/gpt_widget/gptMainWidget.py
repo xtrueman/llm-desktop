@@ -5,13 +5,11 @@ from PySide6.QtWidgets import QHBoxLayout, QWidget, QVBoxLayout, QSplitter, \
     QFileDialog, QMessageBox, QPushButton
 
 from pyqt_openai import THREAD_TABLE_NAME, JSON_FILE_EXT_LIST_STR, ICON_SIDEBAR, ICON_SETTING, \
-    ICON_PROMPT, \
     FILE_NAME_LENGTH, DEFAULT_SHORTCUT_FIND, DEFAULT_SHORTCUT_LEFT_SIDEBAR_WINDOW, \
-    DEFAULT_SHORTCUT_CONTROL_PROMPT_WINDOW, DEFAULT_SHORTCUT_RIGHT_SIDEBAR_WINDOW, QFILEDIALOG_DEFAULT_DIRECTORY
+    DEFAULT_SHORTCUT_RIGHT_SIDEBAR_WINDOW, QFILEDIALOG_DEFAULT_DIRECTORY
 from pyqt_openai.config_loader import CONFIG_MANAGER
 from pyqt_openai.gpt_widget.center.chatWidget import ChatWidget
 from pyqt_openai.gpt_widget.left_sidebar.chatNavWidget import ChatNavWidget
-from pyqt_openai.gpt_widget.prompt_gen_widget.promptGeneratorWidget import PromptGeneratorWidget
 from pyqt_openai.gpt_widget.right_sidebar.gptRightSideBarWidget import GPTRightSideBarWidget
 from pyqt_openai.models import ChatThreadContainer, ChatMessageContainer, CustomizeParamsContainer
 from pyqt_openai.pyqt_openai_data import DB, LLAMAINDEX_WRAPPER
@@ -32,7 +30,6 @@ class GPTMainWidget(QWidget):
 
         self.__show_chat_list = CONFIG_MANAGER.get_general_property('show_chat_list')
         self.__show_setting = CONFIG_MANAGER.get_general_property('show_setting')
-        self.__show_prompt = CONFIG_MANAGER.get_general_property('show_prompt')
 
         self.__background_image = CONFIG_MANAGER.get_general_property('background_image')
         self.__user_image = CONFIG_MANAGER.get_general_property('user_image')
@@ -57,8 +54,6 @@ class GPTMainWidget(QWidget):
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
 
-        self.__promptGeneratorWidget = PromptGeneratorWidget()
-
         self.__sideBarBtn = Button()
         self.__sideBarBtn.setStyleAndIcon(ICON_SIDEBAR)
         self.__sideBarBtn.setCheckable(True)
@@ -76,15 +71,6 @@ class GPTMainWidget(QWidget):
         self.__settingBtn.toggled.connect(self.toggleSetting)
         self.__settingBtn.setShortcut(DEFAULT_SHORTCUT_RIGHT_SIDEBAR_WINDOW)
 
-        self.__promptBtn = Button()
-        self.__promptBtn.setStyleAndIcon(ICON_PROMPT)
-        self.__promptBtn.setToolTip(
-            'Prompt Generator' + f' ({DEFAULT_SHORTCUT_CONTROL_PROMPT_WINDOW})')
-        self.__promptBtn.setCheckable(True)
-        self.__promptBtn.setChecked(self.__show_prompt)
-        self.__promptBtn.toggled.connect(self.togglePrompt)
-        self.__promptBtn.setShortcut(DEFAULT_SHORTCUT_CONTROL_PROMPT_WINDOW)
-
         sep = getSeparator('vertical')
 
         self.__toggleFindToolButton = QPushButton('Show Find Tool')
@@ -96,7 +82,6 @@ class GPTMainWidget(QWidget):
         lay = QHBoxLayout()
         lay.addWidget(self.__sideBarBtn)
         lay.addWidget(self.__settingBtn)
-        lay.addWidget(self.__promptBtn)
         lay.addWidget(sep)
         lay.addWidget(self.__toggleFindToolButton)
         lay.setContentsMargins(2, 2, 2, 2)
@@ -111,26 +96,10 @@ class GPTMainWidget(QWidget):
         self.__chatNavWidget.cleared.connect(self.__clearChat)
         self.__chatNavWidget.onFavoriteClicked.connect(self.__showFavorite)
 
-        self.__rightSideBar = QSplitter()
-        self.__rightSideBar.setOrientation(Qt.Orientation.Vertical)
-        self.__rightSideBar.addWidget(self.__gptRightSideBarWidget)
-        self.__rightSideBar.addWidget(self.__promptGeneratorWidget)
-        self.__rightSideBar.setSizes([450, 550])
-        self.__rightSideBar.setChildrenCollapsible(False)
-        self.__rightSideBar.setHandleWidth(2)
-        self.__rightSideBar.setStyleSheet(
-            '''
-            QSplitter::handle:vertical
-            {
-                background: #CCC;
-                height: 1px;
-            }
-            ''')
-
         mainWidget = QSplitter()
         mainWidget.addWidget(self.__chatNavWidget)
         mainWidget.addWidget(self.__chatWidget)
-        mainWidget.addWidget(self.__rightSideBar)
+        mainWidget.addWidget(self.__gptRightSideBarWidget)
         mainWidget.setSizes([100, 500, 400])
         mainWidget.setChildrenCollapsible(False)
         mainWidget.setHandleWidth(2)
@@ -155,12 +124,6 @@ class GPTMainWidget(QWidget):
 
         # self.__lineEdit.setFocus()
 
-        # Put this below to prevent the widgets pop up when app is opened
-        self.__chatNavWidget.setVisible(self.__show_chat_list)
-        self.__gptRightSideBarWidget.setVisible(self.__show_setting)
-        self.__promptGeneratorWidget.setVisible(self.__show_prompt)
-        self.__rightSideBar.setVisible(self.__show_setting or self.__show_prompt)
-
     def toggleSideBar(self, x):
         self.__chatNavWidget.setVisible(x)
         self.__show_chat_list = x
@@ -170,20 +133,10 @@ class GPTMainWidget(QWidget):
         self.__gptRightSideBarWidget.setVisible(x)
         self.__show_setting = x
         CONFIG_MANAGER.set_general_property('show_setting', self.__show_setting)
-        if not self.__promptGeneratorWidget.isVisible():
-            self.__rightSideBar.setVisible(x)
-
-    def togglePrompt(self, x):
-        self.__promptGeneratorWidget.setVisible(x)
-        self.__show_prompt = x
-        CONFIG_MANAGER.set_general_property('show_prompt', self.__show_prompt)
-        if not self.__gptRightSideBarWidget.isVisible():
-            self.__rightSideBar.setVisible(x)
 
     def toggleButtons(self, x):
         self.__sideBarBtn.setChecked(x)
         self.__settingBtn.setChecked(x)
-        self.__promptBtn.setChecked(x)
 
     def showThreadToolWidget(self, f):
         self.__toggleFindToolButton.setChecked(f)
