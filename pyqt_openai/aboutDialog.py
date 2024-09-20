@@ -6,7 +6,6 @@ from PySide6.QtWidgets import QDialog, QPushButton, QHBoxLayout, QWidget, QVBoxL
 
 import pyqt_openai
 from pyqt_openai import DEFAULT_APP_ICON, LICENSE_URL, DEFAULT_APP_NAME, CONTACT
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.widgets.linkLabel import LinkLabel
 
 
@@ -16,10 +15,10 @@ class AboutDialog(QDialog):
         self.__initUi()
 
     def __initUi(self):
-        self.setWindowTitle(LangClass.TRANSLATIONS['About'])
+        self.setWindowTitle('About')
         self.setWindowFlags(Qt.WindowType.Window | Qt.WindowType.WindowCloseButtonHint)
 
-        self.__okBtn = QPushButton(LangClass.TRANSLATIONS['OK'])
+        self.__okBtn = QPushButton('OK')
         self.__okBtn.clicked.connect(self.accept)
 
         p = QPixmap(DEFAULT_APP_ICON)
@@ -35,7 +34,7 @@ class AboutDialog(QDialog):
         ''')
 
         descWidget2 = LinkLabel()
-        descWidget2.setText(LangClass.TRANSLATIONS['Read MIT License Full Text'])
+        descWidget2.setText('Read MIT License Full Text')
         descWidget2.setUrl(LICENSE_URL)
 
         descWidget3 = QLabel()
@@ -65,7 +64,7 @@ class AboutDialog(QDialog):
         topWidget = QWidget()
         topWidget.setLayout(lay)
 
-        cancelBtn = QPushButton(LangClass.TRANSLATIONS['Cancel'])
+        cancelBtn = QPushButton('Cancel')
         cancelBtn.clicked.connect(self.close)
 
         lay = QHBoxLayout()

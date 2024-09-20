@@ -2,7 +2,6 @@ from PySide6.QtCore import Signal, QThread
 from PySide6.QtWidgets import QMessageBox, QScrollArea, QWidget, QCheckBox, QSpinBox, QGroupBox, QVBoxLayout, \
     QPushButton
 
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.models import ImagePromptContainer
 from pyqt_openai.util.script import getSeparator
 from pyqt_openai.widgets.findPathWidget import FindPathWidget
@@ -28,11 +27,11 @@ class ImageControlWidget(QScrollArea):
     def _initUi(self):
         self._findPathWidget = FindPathWidget()
         self._findPathWidget.setAsDirectory(True)
-        self._findPathWidget.getLineEdit().setPlaceholderText(LangClass.TRANSLATIONS['Choose Directory to Save...'])
+        self._findPathWidget.getLineEdit().setPlaceholderText('Choose Directory to Save...')
         self._findPathWidget.getLineEdit().setText(self._directory)
         self._findPathWidget.added.connect(self._setSaveDirectory)
 
-        self._saveChkBox = QCheckBox(LangClass.TRANSLATIONS['Save After Submit'])
+        self._saveChkBox = QCheckBox('Save After Submit')
         self._saveChkBox.setChecked(True)
         self._saveChkBox.toggled.connect(self._saveChkBoxToggled)
         self._saveChkBox.setChecked(self._is_save)
@@ -42,25 +41,25 @@ class ImageControlWidget(QScrollArea):
         self._numberOfImagesToCreateSpinBox.setValue(self._number_of_images_to_create)
         self._numberOfImagesToCreateSpinBox.valueChanged.connect(self._numberOfImagesToCreateSpinBoxValueChanged)
 
-        self._continueGenerationChkBox = QCheckBox(LangClass.TRANSLATIONS['Continue Image Generation'])
+        self._continueGenerationChkBox = QCheckBox('Continue Image Generation')
         self._continueGenerationChkBox.setChecked(True)
         self._continueGenerationChkBox.toggled.connect(self._continueGenerationChkBoxToggled)
         self._continueGenerationChkBox.setChecked(self._continue_generation)
 
-        self._savePromptAsTextChkBox = QCheckBox(LangClass.TRANSLATIONS['Save Prompt as Text'])
+        self._savePromptAsTextChkBox = QCheckBox('Save Prompt as Text')
         self._savePromptAsTextChkBox.setChecked(True)
         self._savePromptAsTextChkBox.toggled.connect(self._savePromptAsTextChkBoxToggled)
         self._savePromptAsTextChkBox.setChecked(self._save_prompt_as_text)
 
         self._generalGrpBox = QGroupBox()
-        self._generalGrpBox.setTitle(LangClass.TRANSLATIONS['General'])
+        self._generalGrpBox.setTitle('General')
         self._paramGrpBox = QGroupBox()
-        self._paramGrpBox.setTitle(LangClass.TRANSLATIONS['Parameters'])
+        self._paramGrpBox.setTitle('Parameters')
 
-        self._submitBtn = QPushButton(LangClass.TRANSLATIONS['Submit'])
+        self._submitBtn = QPushButton('Submit')
         self._submitBtn.clicked.connect(self._submit)
 
-        self._stopGeneratingImageBtn = QPushButton(LangClass.TRANSLATIONS['Stop Generating Image'])
+        self._stopGeneratingImageBtn = QPushButton('Stop Generating Image')
         self._stopGeneratingImageBtn.clicked.connect(self._stopGeneratingImage)
         self._stopGeneratingImageBtn.setEnabled(False)
 

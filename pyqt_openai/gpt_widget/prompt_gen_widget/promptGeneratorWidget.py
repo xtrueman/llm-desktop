@@ -5,7 +5,6 @@ from PySide6.QtCore import Qt
 
 from pyqt_openai.gpt_widget.prompt_gen_widget.formPage import FormPage
 from pyqt_openai.gpt_widget.prompt_gen_widget.sentencePage import SentencePage
-from pyqt_openai.lang.translations import LangClass
 
 
 class PromptGeneratorWidget(QScrollArea):
@@ -14,7 +13,7 @@ class PromptGeneratorWidget(QScrollArea):
         self.__initUi()
 
     def __initUi(self):
-        promptLbl = QLabel(LangClass.TRANSLATIONS['Prompt'])
+        promptLbl = QLabel('Prompt')
 
         formPage = FormPage()
         formPage.updated.connect(self.__textChanged)
@@ -23,16 +22,16 @@ class PromptGeneratorWidget(QScrollArea):
         sentencePage.updated.connect(self.__textChanged)
 
         self.__prompt = QTextBrowser()
-        self.__prompt.setPlaceholderText(LangClass.TRANSLATIONS['Generated Prompt'])
+        self.__prompt.setPlaceholderText('Generated Prompt')
         self.__prompt.setAcceptRichText(False)
 
         promptTabWidget = QTabWidget()
-        promptTabWidget.addTab(formPage, LangClass.TRANSLATIONS['Form'])
-        promptTabWidget.addTab(sentencePage, LangClass.TRANSLATIONS['Sentence'])
+        promptTabWidget.addTab(formPage, 'Form')
+        promptTabWidget.addTab(sentencePage, 'Sentence')
 
-        previewLbl = QLabel(LangClass.TRANSLATIONS['Preview'])
+        previewLbl = QLabel('Preview')
 
-        copyBtn = QPushButton(LangClass.TRANSLATIONS['Copy'])
+        copyBtn = QPushButton('Copy')
         copyBtn.clicked.connect(self.__copy)
 
         lay = QVBoxLayout()

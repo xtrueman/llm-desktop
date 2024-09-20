@@ -10,7 +10,6 @@ from pyqt_openai import THREAD_ORDERBY, ICON_ADD, ICON_DELETE, ICON_IMPORT, ICON
 from pyqt_openai.gpt_widget.left_sidebar.chatImportDialog import ChatImportDialog
 from pyqt_openai.gpt_widget.left_sidebar.exportDialog import ExportDialog
 from pyqt_openai.gpt_widget.left_sidebar.importDialog import ImportDialog
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.models import ChatThreadContainer
 from pyqt_openai.pyqt_openai_data import DB
 from pyqt_openai.widgets.baseNavWidget import BaseNavWidget
@@ -72,7 +71,7 @@ class ChatNavWidget(BaseNavWidget):
         self.setModel(table_type='chat')
 
         imageGenerationHistoryLbl = QLabel()
-        imageGenerationHistoryLbl.setText(LangClass.TRANSLATIONS['History'])
+        imageGenerationHistoryLbl.setText('History')
 
         self.__addBtn = Button()
         self.__importBtn = Button()
@@ -84,10 +83,10 @@ class ChatNavWidget(BaseNavWidget):
         self.__saveBtn.setStyleAndIcon(ICON_SAVE)
         self.__refreshBtn.setStyleAndIcon(ICON_REFRESH)
 
-        self.__addBtn.setToolTip(LangClass.TRANSLATIONS['Add'])
-        self.__importBtn.setToolTip(LangClass.TRANSLATIONS['Import'])
-        self.__saveBtn.setToolTip(LangClass.TRANSLATIONS['Export'])
-        self.__refreshBtn.setToolTip(LangClass.TRANSLATIONS['Refresh'])
+        self.__addBtn.setToolTip('Add')
+        self.__importBtn.setToolTip('Import')
+        self.__saveBtn.setToolTip('Export')
+        self.__refreshBtn.setToolTip('Refresh')
 
         self.__addBtn.clicked.connect(self.add)
         self.__importBtn.clicked.connect(self.__import)
@@ -111,7 +110,7 @@ class ChatNavWidget(BaseNavWidget):
         menuSubWidget1.setLayout(lay)
 
         self.__searchOptionCmbBox = QComboBox()
-        self.__searchOptionCmbBox.addItems([LangClass.TRANSLATIONS['Title'], LangClass.TRANSLATIONS['Content']])
+        self.__searchOptionCmbBox.addItems(['Title', 'Content'])
         self.__searchOptionCmbBox.setMinimumHeight(self._searchBar.sizeHint().height())
         self.__searchOptionCmbBox.currentIndexChanged.connect(
             lambda _: self._search(self._searchBar.getSearchBar().text()))
@@ -135,7 +134,7 @@ class ChatNavWidget(BaseNavWidget):
         self._tableView.clicked.connect(self.__clicked)
         self._tableView.activated.connect(self.__clicked)
 
-        self.__favoriteBtn = QPushButton(LangClass.TRANSLATIONS['Favorite List'])
+        self.__favoriteBtn = QPushButton('Favorite List')
         self.__favoriteBtn.setCheckable(True)
         self.__favoriteBtn.toggled.connect(self.__onFavoriteClicked)
 
@@ -175,7 +174,7 @@ class ChatNavWidget(BaseNavWidget):
             if reply == QDialog.Accepted:
                 self.onExport.emit(dialog.getSelectedIds())
         else:
-            QMessageBox.information(self, LangClass.TRANSLATIONS['Information'], LangClass.TRANSLATIONS['No data to export.'])
+            QMessageBox.information(self, 'Information', 'No data to export.')
 
     def refreshData(self, title=None):
         self._model.select()
@@ -221,10 +220,10 @@ class ChatNavWidget(BaseNavWidget):
 
     def _search(self, text):
         # title
-        if self.__searchOptionCmbBox.currentText() == LangClass.TRANSLATIONS['Title']:
+        if self.__searchOptionCmbBox.currentText() == 'Title':
             self.refreshData(text)
         # content
-        elif self.__searchOptionCmbBox.currentText() == LangClass.TRANSLATIONS['Content']:
+        elif self.__searchOptionCmbBox.currentText() == 'Content':
             if text:
                 threads = DB.selectAllContentOfThread(content_to_select=text)
                 ids = [_[0] for _ in threads]

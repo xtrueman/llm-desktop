@@ -4,10 +4,8 @@ from PySide6.QtCore import Signal, Qt
 from PySide6.QtGui import QFont, QColor
 from PySide6.QtWidgets import QHBoxLayout, QLineEdit, QPushButton, QLabel, QWidget
 
-from pyqt_openai import OPENAI_REQUEST_URL
 from pyqt_openai.config_loader import CONFIG_MANAGER
-from pyqt_openai.lang.translations import LangClass
-from pyqt_openai.pyqt_openai_data import set_openai_enabled, set_api_key_and_client_global
+from pyqt_openai.pyqt_openai_data import set_openai_enabled, set_api_key_and_client_global, OPENAI_REQUEST_URL
 
 
 class ApiWidget(QWidget):
@@ -21,14 +19,14 @@ class ApiWidget(QWidget):
         self.__apiCheckPreviewLbl = QLabel()
         self.__apiCheckPreviewLbl.setFont(QFont('Arial', 10))
 
-        apiLbl = QLabel(LangClass.TRANSLATIONS['OpenAI API Key'])
+        apiLbl = QLabel('OpenAI API Key')
 
         self.__apiLineEdit = QLineEdit()
-        self.__apiLineEdit.setPlaceholderText(LangClass.TRANSLATIONS['Write your OpenAI API Key...'])
+        self.__apiLineEdit.setPlaceholderText('Write your OpenAI API Key...')
         self.__apiLineEdit.returnPressed.connect(self.setApi)
         self.__apiLineEdit.setEchoMode(QLineEdit.EchoMode.Password)
 
-        apiBtn = QPushButton(LangClass.TRANSLATIONS['Use'])
+        apiBtn = QPushButton('Use')
         apiBtn.clicked.connect(self.setApi)
 
         lay = QHBoxLayout()
@@ -58,12 +56,12 @@ class ApiWidget(QWidget):
                 CONFIG_MANAGER.set_general_property('API_KEY', api_key)
 
                 self.__apiCheckPreviewLbl.setStyleSheet("color: {}".format(QColor(0, 200, 0).name()))
-                self.__apiCheckPreviewLbl.setText(LangClass.TRANSLATIONS['API key is valid'])
+                self.__apiCheckPreviewLbl.setText('Valid')
             else:
                 raise Exception
         except Exception as e:
             self.__apiCheckPreviewLbl.setStyleSheet("color: {}".format(QColor(255, 0, 0).name()))
-            self.__apiCheckPreviewLbl.setText(LangClass.TRANSLATIONS['API key is invalid'])
+            self.__apiCheckPreviewLbl.setText('Invalid!')
             self.onAIEnabled.emit(False)
             print(e)
         finally:

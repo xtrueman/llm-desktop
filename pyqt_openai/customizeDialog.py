@@ -5,7 +5,6 @@ from PySide6.QtWidgets import QDialog, QPushButton, QHBoxLayout, QVBoxLayout, QW
 
 from pyqt_openai import IMAGE_FILE_EXT_LIST_STR, DEFAULT_ICON_SIZE
 from pyqt_openai.fontWidget import FontWidget
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.models import CustomizeParamsContainer
 from pyqt_openai.util.script import getSeparator
 from pyqt_openai.widgets.circleProfileImage import RoundedImage
@@ -27,7 +26,7 @@ class CustomizeDialog(QDialog):
         self.__font_family = args.font_family
 
     def __initUi(self):
-        self.setWindowTitle(LangClass.TRANSLATIONS['Customize'])
+        self.setWindowTitle('Customize')
         self.setWindowFlags(Qt.WindowType.Window | Qt.WindowType.WindowCloseButtonHint)
 
         self.__homePageGraphicsView = NormalImageView()
@@ -77,9 +76,9 @@ class CustomizeDialog(QDialog):
         aiWidget.setLayout(lay3)
 
         lay = QFormLayout()
-        lay.addRow(LangClass.TRANSLATIONS['Home Image'], homePageWidget)
-        lay.addRow(LangClass.TRANSLATIONS['User Image'], userWidget)
-        lay.addRow(LangClass.TRANSLATIONS['AI Image'], aiWidget)
+        lay.addRow('Home Image', homePageWidget)
+        lay.addRow('User Image', userWidget)
+        lay.addRow('AI Image', aiWidget)
 
         leftWidget = QWidget()
         leftWidget.setLayout(lay)
@@ -97,10 +96,10 @@ class CustomizeDialog(QDialog):
 
         sep = getSeparator('horizontal')
 
-        self.__okBtn = QPushButton(LangClass.TRANSLATIONS['OK'])
+        self.__okBtn = QPushButton('OK')
         self.__okBtn.clicked.connect(self.accept)
 
-        cancelBtn = QPushButton(LangClass.TRANSLATIONS['Cancel'])
+        cancelBtn = QPushButton('Cancel')
         cancelBtn.clicked.connect(self.close)
 
         lay = QHBoxLayout()

@@ -5,8 +5,10 @@ Also this checks the version of the OpenAI package and raises an exception if th
 
 import base64
 import os.path
-
+#import httpx
+import openai
 from openai import OpenAI
+import logging
 
 from pyqt_openai.config_loader import CONFIG_MANAGER
 from pyqt_openai.models import ChatMessageContainer
@@ -20,7 +22,25 @@ DB = SqliteDatabase()
 LLAMAINDEX_WRAPPER = GPTLLamaIndexWrapper()
 
 # initialize
-OPENAI_STRUCT = OpenAI(api_key='')
+
+#httpx_client = httpx.Client( headers = { "Accept-Encoding" : "identity" } )
+#openai.api_requestor.AsyncHTTPClient.connection = httpx_client
+
+# Настройка логирования
+# logging.basicConfig(
+#     level = logging.DEBUG, # Уровень логирования (DEBUG, INFO, WARNING, ERROR, CRITICAL)
+#     format = '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+#     filename = '/tmp/openai.log',  # Путь к файлу логов
+#     filemode = 'a' # Режим записи (a - append, w - write)
+# )
+# openai.log = "debug"
+
+## OPENAI
+# OPENAI_BASE_URL = 'https://api.openai.com/v1'
+OPENAI_BASE_URL = 'http://outproxy:9000/v1'
+OPENAI_REQUEST_URL = OPENAI_BASE_URL + '/models'
+
+OPENAI_STRUCT = OpenAI( api_key = '', base_url = OPENAI_BASE_URL )
 
 OPENAI_API_VALID = False
 

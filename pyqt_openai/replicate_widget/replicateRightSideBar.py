@@ -4,7 +4,6 @@ from PySide6.QtWidgets import QLineEdit, QWidget, QSpinBox, QVBoxLayout, \
     QFormLayout, QLabel, QSplitter
 
 from pyqt_openai.config_loader import CONFIG_MANAGER
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.replicate_widget.replicateThread import ReplicateThread
 from pyqt_openai.util.replicate_script import ReplicateWrapper
 from pyqt_openai.widgets.imageControlWidget import ImageControlWidget
@@ -38,7 +37,7 @@ class ReplicateRightSideBarWidget(ImageControlWidget):
         super()._initUi()
 
         self.__apiKeyLineEdit = QLineEdit()
-        self.__apiKeyLineEdit.setPlaceholderText(LangClass.TRANSLATIONS['Enter Replicate API Key...'])
+        self.__apiKeyLineEdit.setPlaceholderText('Enter Replicate API Key...')
         self.__apiKeyLineEdit.setText(self.__api_key)
         self.__apiKeyLineEdit.setEchoMode(QLineEdit.EchoMode.Password)
         self.__apiKeyLineEdit.textChanged.connect(self.__replicateChanged)
@@ -71,7 +70,7 @@ class ReplicateRightSideBarWidget(ImageControlWidget):
         self.__promptWidget = QPlainTextEdit()
         self.__promptWidget.setPlainText(self.__prompt)
         self.__promptWidget.textChanged.connect(self.__replicateTextChanged)
-        self.__promptWidget.setPlaceholderText(LangClass.TRANSLATIONS['Enter prompt here...'])
+        self.__promptWidget.setPlaceholderText('Enter prompt here...')
 
         self.__negativePromptWidget = QPlainTextEdit()
         self.__negativePromptWidget.setPlaceholderText('ugly, deformed, noisy, blurry, distorted')
@@ -79,17 +78,17 @@ class ReplicateRightSideBarWidget(ImageControlWidget):
         self.__negativePromptWidget.textChanged.connect(self.__replicateTextChanged)
 
         lay = QVBoxLayout()
-        lay.addWidget(QLabel(LangClass.TRANSLATIONS['Prompt']))
+        lay.addWidget(QLabel('Prompt'))
         lay.addWidget(self.__promptWidget)
-        lay.addWidget(QLabel(LangClass.TRANSLATIONS['Negative Prompt']))
+        lay.addWidget(QLabel('Negative Prompt'))
         lay.addWidget(self.__negativePromptWidget)
         promptWidget = QWidget()
         promptWidget.setLayout(lay)
 
         lay = QFormLayout()
-        lay.addRow(LangClass.TRANSLATIONS['Model'], self.__modelTextEdit)
-        lay.addRow(LangClass.TRANSLATIONS['Width'], self.__widthSpinBox)
-        lay.addRow(LangClass.TRANSLATIONS['Height'], self.__heightSpinBox)
+        lay.addRow('Model', self.__modelTextEdit)
+        lay.addRow('Width', self.__widthSpinBox)
+        lay.addRow('Height', self.__heightSpinBox)
         otherParamWidget = QWidget()
         otherParamWidget.setLayout(lay)
 

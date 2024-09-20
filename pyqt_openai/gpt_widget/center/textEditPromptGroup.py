@@ -7,7 +7,6 @@ from PySide6.QtWidgets import QVBoxLayout, QWidget, QApplication
 from pyqt_openai import PROMPT_BEGINNING_KEY_NAME, PROMPT_MAIN_KEY_NAME, PROMPT_END_KEY_NAME, \
     PROMPT_JSON_KEY_NAME, CONTEXT_DELIMITER, IMAGE_FILE_EXT_LIST
 from pyqt_openai.gpt_widget.center.textEditPrompt import TextEditPrompt
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.widgets.jsonEditor import JSONEditor
 
 
@@ -23,13 +22,13 @@ class TextEditPromptGroup(QWidget):
 
     def __initUi(self):
         self.__beginningTextEdit = TextEditPrompt()
-        self.__beginningTextEdit.setPlaceholderText(LangClass.TRANSLATIONS['Beginning'])
+        self.__beginningTextEdit.setPlaceholderText('Beginning')
 
         self.__textEdit = TextEditPrompt()
-        self.__textEdit.setPlaceholderText(LangClass.TRANSLATIONS['Write some text...'])
+        self.__textEdit.setPlaceholderText('Write some text...')
 
         self.__endingTextEdit = TextEditPrompt()
-        self.__endingTextEdit.setPlaceholderText(LangClass.TRANSLATIONS['Ending'])
+        self.__endingTextEdit.setPlaceholderText('Ending')
 
         self.__jsonTextEdit = JSONEditor()
 

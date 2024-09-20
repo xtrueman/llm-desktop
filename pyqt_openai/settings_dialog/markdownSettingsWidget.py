@@ -3,8 +3,7 @@
 # from PySide6.QtWidgets import (QWidget, QVBoxLayout, QCheckBox, QLabel, QComboBox,
 #                             QPushButton, QColorDialog, QFormLayout, QScrollArea)
 #
-# from pyqt_openai.lang.translations import LangClass
-# from pyqt_openai.models import SettingsParamsContainer
+# # from pyqt_openai.models import SettingsParamsContainer
 # from pyqt_openai.util.script import getSeparator
 #
 #
@@ -29,11 +28,11 @@
 #         self.__a_color = args.a_color
 #
 #     def __initUi(self):
-#         self.__showAsMarkdownCheckBox = QCheckBox(LangClass.TRANSLATIONS['Show as Markdown'])
+#         self.__showAsMarkdownCheckBox = QCheckBox('Show as Markdown')
 #
-#         self.__applyUserDefinedStylesCheckBox = QCheckBox(LangClass.TRANSLATIONS['Apply User-Defined HTML Styles'])
+#         self.__applyUserDefinedStylesCheckBox = QCheckBox('Apply User-Defined HTML Styles')
 #
-#         markdownLbl = QLabel(LangClass.TRANSLATIONS['Details'])
+#         markdownLbl = QLabel('Details')
 #         markdownWidget = QWidget()
 #
 #         form_layout = QFormLayout()

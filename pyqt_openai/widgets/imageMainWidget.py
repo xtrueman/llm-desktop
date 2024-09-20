@@ -7,7 +7,6 @@ from pyqt_openai import ICON_HISTORY, ICON_SETTING, \
     DEFAULT_SHORTCUT_LEFT_SIDEBAR_WINDOW, \
     DEFAULT_SHORTCUT_RIGHT_SIDEBAR_WINDOW
 from pyqt_openai.config_loader import CONFIG_MANAGER
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.models import ImagePromptContainer
 from pyqt_openai.pyqt_openai_data import DB
 from pyqt_openai.util.script import get_image_filename_for_saving, open_directory, get_image_prompt_filename_for_saving, \
@@ -45,7 +44,7 @@ class ImageMainWidget(QWidget):
         self._historyBtn = Button()
         self._historyBtn.setStyleAndIcon(ICON_HISTORY)
         self._historyBtn.setCheckable(True)
-        self._historyBtn.setToolTip(LangClass.TRANSLATIONS['History'] + f' ({DEFAULT_SHORTCUT_LEFT_SIDEBAR_WINDOW})')
+        self._historyBtn.setToolTip('History' + f' ({DEFAULT_SHORTCUT_LEFT_SIDEBAR_WINDOW})')
         self._historyBtn.setChecked(self._show_history)
         self._historyBtn.toggled.connect(self.toggleHistory)
         self._historyBtn.setShortcut(DEFAULT_SHORTCUT_LEFT_SIDEBAR_WINDOW)
@@ -53,7 +52,7 @@ class ImageMainWidget(QWidget):
         self._settingBtn = Button()
         self._settingBtn.setStyleAndIcon(ICON_SETTING)
         self._settingBtn.setCheckable(True)
-        self._settingBtn.setToolTip(LangClass.TRANSLATIONS['Settings'] + f' ({DEFAULT_SHORTCUT_RIGHT_SIDEBAR_WINDOW})')
+        self._settingBtn.setToolTip('Settings' + f' ({DEFAULT_SHORTCUT_RIGHT_SIDEBAR_WINDOW})')
         self._settingBtn.setChecked(self._show_setting)
         self._settingBtn.toggled.connect(self.toggleSetting)
         self._settingBtn.setShortcut(DEFAULT_SHORTCUT_RIGHT_SIDEBAR_WINDOW)
@@ -160,7 +159,7 @@ class ImageMainWidget(QWidget):
     def _imageGenerationAllComplete(self):
         if not self.isVisible() or not self.window().isActiveWindow():
             if CONFIG_MANAGER.get_general_property('notify_finish'):
-                self.__notifierWidget = NotifierWidget(informative_text=LangClass.TRANSLATIONS['Response 👌'], detailed_text = LangClass.TRANSLATIONS['Image Generation complete.'])
+                self.__notifierWidget = NotifierWidget(informative_text='Response 👌', detailed_text = 'Image Generation complete.')
                 self.__notifierWidget.show()
                 self.__notifierWidget.doubleClicked.connect(self._bringWindowToFront)
 

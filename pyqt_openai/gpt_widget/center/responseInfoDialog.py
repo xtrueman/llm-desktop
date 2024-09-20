@@ -1,7 +1,6 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QDialog, QFormLayout, QLabel, QPushButton
 
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.models import ChatMessageContainer
 from pyqt_openai.util.script import getSeparator
 
@@ -16,7 +15,7 @@ class ResponseInfoDialog(QDialog):
         self.__result_info = result_info
 
     def __initUi(self):
-        self.setWindowTitle(LangClass.TRANSLATIONS['Message Result'])
+        self.setWindowTitle('Message Result')
         self.setWindowFlags(Qt.WindowType.Window | Qt.WindowType.WindowCloseButtonHint)
 
         lbls = []

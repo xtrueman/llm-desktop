@@ -1,4 +1,4 @@
-from pyqt_openai import COLUMN_TO_EXCLUDE_FROM_SHOW_HIDE_CHAT, COLUMN_TO_EXCLUDE_FROM_SHOW_HIDE_IMAGE, LANGUAGE_DICT, \
+from pyqt_openai import COLUMN_TO_EXCLUDE_FROM_SHOW_HIDE_CHAT, COLUMN_TO_EXCLUDE_FROM_SHOW_HIDE_IMAGE, \
     DB_NAME_REGEX, \
     MAXIMUM_MESSAGES_IN_PARAMETER_RANGE
 from pyqt_openai.config_loader import CONFIG_MANAGER
@@ -10,7 +10,6 @@ from PySide6.QtWidgets import QComboBox, QFormLayout, QLineEdit, QCheckBox, QSiz
     QVBoxLayout, QHBoxLayout, QGroupBox, QSplitter, QLabel, QWidget, QSpinBox
 
 from pyqt_openai.models import ImagePromptContainer, ChatThreadContainer, SettingsParamsContainer
-from pyqt_openai.lang.translations import LangClass
 
 
 class GeneralSettingsWidget(QWidget):
@@ -20,7 +19,6 @@ class GeneralSettingsWidget(QWidget):
         self.__initUi()
 
     def __initVal(self):
-        self.lang = CONFIG_MANAGER.get_general_property('lang')
         self.db = CONFIG_MANAGER.get_general_property('db')
         self.do_not_ask_again = CONFIG_MANAGER.get_general_property('do_not_ask_again')
         self.notify_finish = CONFIG_MANAGER.get_general_property('notify_finish')
@@ -33,20 +31,6 @@ class GeneralSettingsWidget(QWidget):
         self.run_at_startup = CONFIG_MANAGER.get_general_property('run_at_startup')
 
     def __initUi(self):
-        # Language setting
-        self.__langCmbBox = QComboBox()
-        self.__langCmbBox.addItems(list(LANGUAGE_DICT.keys()))
-        self.__langCmbBox.setCurrentText(self.lang)
-        self.__langCmbBox.setSizePolicy(QSizePolicy.Policy.MinimumExpanding, QSizePolicy.Policy.MinimumExpanding)
-
-        lay = QHBoxLayout()
-        lay.addWidget(QLabel(LangClass.TRANSLATIONS["Language"]))
-        lay.addWidget(self.__langCmbBox)
-        lay.setContentsMargins(0, 0, 0, 0)
-
-        langWidget = QWidget()
-        langWidget.setLayout(lay)
-
         # Database setting
         dbLayout = QHBoxLayout()
         self.__dbLineEdit = QLineEdit(self.db)
@@ -54,50 +38,45 @@ class GeneralSettingsWidget(QWidget):
         re = QRegularExpression(DB_NAME_REGEX)
         self.__validator.setRegularExpression(re)
         self.__dbLineEdit.setValidator(self.__validator)
-        dbLayout.addWidget(QLabel(LangClass.TRANSLATIONS["Name of target database (without extension)"]))
+        dbLayout.addWidget(QLabel("Name of target database (without extension)"))
         dbLayout.addWidget(self.__dbLineEdit)
 
         # Checkboxes
-        self.__doNotAskAgainCheckBox = QCheckBox(f'{LangClass.TRANSLATIONS["Do not ask again when closing"]} ({LangClass.TRANSLATIONS["Always close the application"]})')
+        self.__doNotAskAgainCheckBox = QCheckBox(f'{"Do not ask again when closing"} ({"Always close the application"})')
         self.__doNotAskAgainCheckBox.setChecked(self.do_not_ask_again)
 
-        self.__notifyFinishCheckBox = QCheckBox(LangClass.TRANSLATIONS["Notify when finish processing any task (Conversion, etc.)"])
+        self.__notifyFinishCheckBox = QCheckBox("Notify when finish processing any task (Conversion, etc.)")
         self.__notifyFinishCheckBox.setChecked(self.notify_finish)
-        self.__showToolbarCheckBox = QCheckBox(LangClass.TRANSLATIONS["Show Toolbar"])
+        self.__showToolbarCheckBox = QCheckBox("Show Toolbar")
         self.__showToolbarCheckBox.setChecked(self.show_toolbar)
-        self.__showSecondaryToolBarChkBox = QCheckBox(LangClass.TRANSLATIONS['Show Secondary Toolbar'])
+        self.__showSecondaryToolBarChkBox = QCheckBox('Show Secondary Toolbar')
         self.__showSecondaryToolBarChkBox.setChecked(self.show_secondary_toolbar)
-        # TODO LANGUAGE
-        self.__runAtStartupCheckBox = QCheckBox(LangClass.TRANSLATIONS['Run at startup (Windows only)'])
-        self.__runAtStartupCheckBox.setChecked(self.run_at_startup)
 
         lay = QVBoxLayout()
-        lay.addWidget(langWidget)
         lay.addLayout(dbLayout)
         lay.addWidget(self.__doNotAskAgainCheckBox)
         lay.addWidget(self.__notifyFinishCheckBox)
         lay.addWidget(self.__showToolbarCheckBox)
         lay.addWidget(self.__showSecondaryToolBarChkBox)
-        lay.addWidget(self.__runAtStartupCheckBox)
 
-        generalGrpBox = QGroupBox(LangClass.TRANSLATIONS['General'])
+        generalGrpBox = QGroupBox('General')
         generalGrpBox.setLayout(lay)
 
         self.__maximumMessagesInParameterSpinBox = QSpinBox()
         self.__maximumMessagesInParameterSpinBox.setRange(*MAXIMUM_MESSAGES_IN_PARAMETER_RANGE)
         self.__maximumMessagesInParameterSpinBox.setValue(self.maximum_messages_in_parameter)
 
-        self.__show_as_markdown = QCheckBox(LangClass.TRANSLATIONS['Show as Markdown'])
+        self.__show_as_markdown = QCheckBox('Show as Markdown')
         self.__show_as_markdown.setChecked(self.show_as_markdown)
 
         lay = QFormLayout()
-        lay.addRow(LangClass.TRANSLATIONS['Maximum Messages in Parameter'], self.__maximumMessagesInParameterSpinBox)
+        lay.addRow('Maximum Messages in Parameter', self.__maximumMessagesInParameterSpinBox)
         lay.addRow(self.__show_as_markdown)
 
-        chatBrowserGrpBox = QGroupBox(LangClass.TRANSLATIONS['Chat Browser'])
+        chatBrowserGrpBox = QGroupBox('Chat Browser')
         chatBrowserGrpBox.setLayout(lay)
 
-        chatColAllCheckBox = QCheckBox(LangClass.TRANSLATIONS['Check All'])
+        chatColAllCheckBox = QCheckBox('Check All')
         self.__chatColCheckBoxListWidget = CheckBoxListWidget()
         for k in ChatThreadContainer.get_keys(excludes=COLUMN_TO_EXCLUDE_FROM_SHOW_HIDE_CHAT):
             self.__chatColCheckBoxListWidget.addItem(k, checked=k in self.chat_column_to_show)
@@ -105,14 +84,14 @@ class GeneralSettingsWidget(QWidget):
         chatColAllCheckBox.stateChanged.connect(self.__chatColCheckBoxListWidget.toggleState)
 
         lay = QVBoxLayout()
-        lay.addWidget(QLabel(LangClass.TRANSLATIONS['Select the columns you want to show in the chat list.']))
+        lay.addWidget(QLabel('Select the columns you want to show in the chat list.'))
         lay.addWidget(chatColAllCheckBox)
         lay.addWidget(self.__chatColCheckBoxListWidget)
 
         chatColWidget = QWidget()
         chatColWidget.setLayout(lay)
 
-        imageColAllCheckBox = QCheckBox(LangClass.TRANSLATIONS['Check all'])
+        imageColAllCheckBox = QCheckBox('Check all')
         self.__imageColCheckBoxListWidget = CheckBoxListWidget()
         for k in ImagePromptContainer.get_keys(excludes=COLUMN_TO_EXCLUDE_FROM_SHOW_HIDE_IMAGE):
             self.__imageColCheckBoxListWidget.addItem(k, checked=k in self.image_column_to_show)
@@ -120,7 +99,7 @@ class GeneralSettingsWidget(QWidget):
         imageColAllCheckBox.stateChanged.connect(self.__imageColCheckBoxListWidget.toggleState)
 
         lay = QVBoxLayout()
-        lay.addWidget(QLabel(LangClass.TRANSLATIONS['Select the columns you want to show in the image list.']))
+        lay.addWidget(QLabel('Select the columns you want to show in the image list.'))
         lay.addWidget(imageColAllCheckBox)
         lay.addWidget(self.__imageColCheckBoxListWidget)
 
@@ -139,7 +118,7 @@ class GeneralSettingsWidget(QWidget):
         lay = QVBoxLayout()
         lay.addWidget(self.__splitter)
 
-        columnGrpBox = QGroupBox(LangClass.TRANSLATIONS['Show/hide columns'])
+        columnGrpBox = QGroupBox('Show/hide columns')
         columnGrpBox.setLayout(lay)
 
         lay = QVBoxLayout()
@@ -151,7 +130,6 @@ class GeneralSettingsWidget(QWidget):
 
     def getParam(self):
         return {
-            "lang": self.__langCmbBox.currentText(),
             "db": self.__dbLineEdit.text(),
             "do_not_ask_again": self.__doNotAskAgainCheckBox.isChecked(),
             "notify_finish": self.__notifyFinishCheckBox.isChecked(),
@@ -161,5 +139,4 @@ class GeneralSettingsWidget(QWidget):
             "image_column_to_show": COLUMN_TO_EXCLUDE_FROM_SHOW_HIDE_IMAGE+self.__imageColCheckBoxListWidget.getCheckedItemsText(),
             "maximum_messages_in_parameter": self.__maximumMessagesInParameterSpinBox.value(),
             "show_as_markdown": self.__show_as_markdown.isChecked(),
-            "run_at_startup": self.__runAtStartupCheckBox.isChecked(),
         }

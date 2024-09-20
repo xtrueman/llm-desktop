@@ -1,6 +1,5 @@
 from pyqt_openai.config_loader import CONFIG_MANAGER
 from pyqt_openai.gpt_widget.right_sidebar.llama_widget.listWidget import FileListWidget
-from pyqt_openai.lang.translations import LangClass
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QTextBrowser
@@ -23,7 +22,7 @@ class LlamaPage(QWidget):
         self.__listWidget.onDirectorySelected.connect(self.__onDirectorySelected)
 
         self.__txtBrowser = QTextBrowser()
-        self.__txtBrowser.setPlaceholderText(LangClass.TRANSLATIONS["This text browser shows selected file's content in the list."])
+        self.__txtBrowser.setPlaceholderText("This text browser shows selected file's content in the list.")
         self.__txtBrowser.setMaximumHeight(150)
 
         lay = QVBoxLayout()

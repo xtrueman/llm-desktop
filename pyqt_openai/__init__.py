@@ -33,8 +33,6 @@ OWNER = 'yjg30737'
 
 DEFAULT_APP_NAME = 'VividNode'
 
-AUTOSTART_REGISTRY_KEY = r"Software\Microsoft\Windows\CurrentVersion\Run"
-
 # Check if the application is frozen (compiled with PyInstaller)
 # If this is main.py, it will return False, that means it is not frozen.
 def is_frozen():
@@ -67,20 +65,6 @@ def get_config_directory():
 
     return config_dir
 
-UPDATE_DIR = get_config_directory()
-
-# The default updater path (relative to the application's root directory)
-UPDATER_PATH = os.path.join(UPDATE_DIR, 'Updater.exe')
-
-# Move the Updater.exe to the config folder
-def move_updater():
-    original_updater_path = os.path.join(ROOT_DIR, 'Updater.exe')
-    if os.path.exists(original_updater_path):
-        if os.path.exists(UPDATER_PATH):
-            os.remove(UPDATER_PATH)
-        shutil.move(original_updater_path, UPDATER_PATH)
-
-move_updater()
 
 CONTACT = pyproject_data["project"]["authors"][0]['email']
 APP_INITIAL_WINDOW_SIZE = (1280, 768)
@@ -103,24 +87,6 @@ HOW_TO_REPLICATE = 'https://medium.com/@yjg30737/10a2cb983ceb'
 
 COLUMN_TO_EXCLUDE_FROM_SHOW_HIDE_CHAT = ['id']
 COLUMN_TO_EXCLUDE_FROM_SHOW_HIDE_IMAGE = ['id', 'data']
-DEFAULT_LANGUAGE = 'en_US'
-LANGUAGE_DICT = {
-    "English": "en_US",
-    "Spanish": "es_ES",
-    "Chinese": "zh_CN",
-    "Russian": "ru_RU",
-    "Korean": "ko_KR",
-    "French": "fr_FR",
-    "German": "de_DE",
-    "Italian": "it_IT",
-    "Hindi": "hi_IN",
-    "Arabic": "ar_AE",
-    "Japanese": "ja_JP",
-    "Bengali": "bn_IN",
-    "Urdu": "ur_PK",
-    "Indonesian": "id_ID",
-    "Portuguese": "pt_BR"
-}
 
 MESSAGE_PADDING = 16
 MESSAGE_MAXIMUM_HEIGHT = 800
@@ -131,9 +97,6 @@ MAXIMUM_MESSAGES_IN_PARAMETER_RANGE = 2, 1000
 CONTEXT_DELIMITER = '\n'*2
 PROMPT_IMAGE_SCALE = 200, 200
 TOAST_DURATION = 3
-
-## OPENAI
-OPENAI_REQUEST_URL = 'https://api.openai.com/v1/models'
 
 ## PARAMETER - OPENAI CHAT
 OPENAI_TEMPERATURE_RANGE = 0, 2
@@ -153,7 +116,7 @@ PRESENCE_PENALTY_STEP = 0.01
 ICON_PATH = os.path.join(EXEC_PATH, 'ico')
 
 ## ICONS
-DEFAULT_APP_ICON = os.path.join(EXEC_PATH, 'icon.ico')
+DEFAULT_APP_ICON = os.path.join(ICON_PATH, 'icon.ico')
 
 ICON_ADD = os.path.join(ICON_PATH, 'add.svg')
 ICON_CASE = os.path.join(ICON_PATH, 'case.svg')
@@ -193,7 +156,7 @@ ICON_SEND = os.path.join(ICON_PATH, 'send.svg')
 DEFAULT_ICON_SIZE = (24, 24)
 DEFAULT_USER_IMAGE_PATH = ICON_USER
 DEFAULT_AI_IMAGE_PATH = ICON_OPENAI
-DEFAULT_FONT_SIZE = 12
+DEFAULT_FONT_SIZE = 14
 DEFAULT_FONT_FAMILY = 'Arial'
 
 DEFAULT_BUTTON_HOVER_COLOR = '#A2D0DD'
@@ -248,15 +211,6 @@ DEFAULT_SHORTCUT_SEND = 'Ctrl+Return'
 MAIN_INDEX = 'main.py'
 IMAGE_DEFAULT_SAVE_DIRECTORY = 'image_result'
 INI_FILE_NAME = os.path.join(get_config_directory(), 'config.yaml')
-LANGUAGE_FILE = os.path.join(get_config_directory(), 'translations.json')
-
-# TODO WILL_REMOVE_AFTER v1.2.0
-prev_lang_file = os.path.join(ROOT_DIR, 'lang/translations.json') if os.path.exists(os.path.join(ROOT_DIR, 'lang/translations.json')) else (os.path.join(SRC_DIR, 'lang/translations.json') if os.path.exists(os.path.join(SRC_DIR, 'lang/translations.json')) else None)
-if prev_lang_file:
-    if os.path.exists(prev_lang_file):
-        shutil.copy(prev_lang_file, LANGUAGE_FILE)
-else:
-    pass
 
 DB_FILE_NAME = 'conv'
 FILE_NAME_LENGTH = 32
@@ -369,7 +323,6 @@ if os.path.exists(ALEX_BROGAN_PROMPT_FILENAME):
 CONFIG_DATA = {
     'General': {
         'TAB_IDX': 0,
-        'lang': 'English',
         'show_chat_list': True,
         'stream': True,
         'db': 'conv',

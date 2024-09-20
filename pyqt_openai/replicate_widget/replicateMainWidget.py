@@ -6,7 +6,6 @@ from PySide6.QtWidgets import QStackedWidget, QHBoxLayout, QVBoxLayout, QWidget,
 from pyqt_openai import ICON_HISTORY, ICON_SETTING, DEFAULT_SHORTCUT_LEFT_SIDEBAR_WINDOW, \
     DEFAULT_SHORTCUT_RIGHT_SIDEBAR_WINDOW
 from pyqt_openai.config_loader import CONFIG_MANAGER
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.models import ImagePromptContainer
 from pyqt_openai.pyqt_openai_data import DB
 from pyqt_openai.replicate_widget.replicateHome import ReplicateHome

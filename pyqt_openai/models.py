@@ -12,7 +12,6 @@ from pyqt_openai import DB_FILE_NAME, DEFAULT_FONT_SIZE, DEFAULT_FONT_FAMILY, DE
     DEFAULT_SHORTCUT_FIND, DEFAULT_SHORTCUT_JSON_MODE, DEFAULT_SHORTCUT_LEFT_SIDEBAR_WINDOW, \
     DEFAULT_SHORTCUT_RIGHT_SIDEBAR_WINDOW, DEFAULT_SHORTCUT_CONTROL_PROMPT_WINDOW, DEFAULT_SHORTCUT_SETTING, \
     DEFAULT_SHORTCUT_SEND
-from pyqt_openai.lang.translations import LangClass
 
 
 @dataclass
@@ -119,7 +118,6 @@ class ImagePromptContainer(Container):
 
 @dataclass
 class SettingsParamsContainer(Container):
-    lang: str = LangClass.lang_changed()
     db: str = DB_FILE_NAME
     do_not_ask_again: bool = False
     notify_finish: bool = True

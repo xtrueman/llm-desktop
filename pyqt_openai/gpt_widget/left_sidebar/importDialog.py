@@ -1,7 +1,6 @@
 from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QButtonGroup, QGroupBox, QRadioButton, QDialogButtonBox, QDialog, QVBoxLayout
 
-from pyqt_openai.lang.translations import LangClass
 
 
 class ImportDialog(QDialog):
@@ -14,11 +13,11 @@ class ImportDialog(QDialog):
         self.__selected_import_type = None
 
     def __initUi(self):
-        self.setWindowTitle(LangClass.TRANSLATIONS["Import From..."])
+        self.setWindowTitle("Import From...")
         self.setWindowFlags(Qt.WindowType.Window | Qt.WindowType.WindowCloseButtonHint)
 
-        self.__generalRadBtn = QRadioButton(LangClass.TRANSLATIONS['General'])
-        self.__chatGptRadBtn = QRadioButton(LangClass.TRANSLATIONS['ChatGPT'])
+        self.__generalRadBtn = QRadioButton('General')
+        self.__chatGptRadBtn = QRadioButton('ChatGPT')
 
         self.__generalRadBtn.setChecked(True)
 
@@ -31,7 +30,7 @@ class ImportDialog(QDialog):
         lay.addWidget(self.__chatGptRadBtn)
         lay.setAlignment(Qt.AlignmentFlag.AlignTop)
 
-        importTypeGrpBox = QGroupBox(LangClass.TRANSLATIONS['Import Type'])
+        importTypeGrpBox = QGroupBox('Import Type')
         importTypeGrpBox.setLayout(lay)
 
         buttonBox = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)

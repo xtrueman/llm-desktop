@@ -9,7 +9,6 @@ from pyqt_openai import IMAGE_TABLE_NAME, ICON_HISTORY, ICON_SETTING, \
 from pyqt_openai.config_loader import CONFIG_MANAGER
 from pyqt_openai.dalle_widget.dalleHome import DallEHome
 from pyqt_openai.dalle_widget.dalleRightSideBar import DallERightSideBarWidget
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.models import ImagePromptContainer
 from pyqt_openai.pyqt_openai_data import DB
 from pyqt_openai.util.script import get_image_filename_for_saving, open_directory, get_image_prompt_filename_for_saving, \

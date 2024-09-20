@@ -16,7 +16,6 @@ import traceback
 import zipfile
 from datetime import datetime
 from pathlib import Path
-import winreg
 import requests
 
 from PySide6.QtCore import Qt, QUrl
@@ -27,8 +26,7 @@ from jinja2 import Template
 from pyqt_openai import MAIN_INDEX, \
     PROMPT_NAME_REGEX, PROMPT_MAIN_KEY_NAME, PROMPT_BEGINNING_KEY_NAME, \
     PROMPT_END_KEY_NAME, PROMPT_JSON_KEY_NAME, CONTEXT_DELIMITER, THREAD_ORDERBY, DEFAULT_APP_NAME, \
-    AUTOSTART_REGISTRY_KEY, is_frozen
-from pyqt_openai.lang.translations import LangClass
+    is_frozen
 from pyqt_openai.models import ImagePromptContainer
 from pyqt_openai.pyqt_openai_data import DB
 
@@ -134,11 +132,10 @@ def restart_app():
     os.execv(sys.executable, args)
 
 def show_message_box_after_change_to_restart(change_list):
-    title = LangClass.TRANSLATIONS['Application Restart Required']
-    text = LangClass.TRANSLATIONS[
-        'The program needs to be restarted because of following changes']
+    title = 'Application Restart Required'
+    text = 'The program needs to be restarted because of following changes'
     text += '\n\n' + '\n'.join(change_list) + '\n\n'
-    text += LangClass.TRANSLATIONS['Would you like to restart it?']
+    text += 'Would you like to restart it?'
 
     msg_box = QMessageBox()
     msg_box.setWindowTitle(title)
@@ -308,7 +305,7 @@ def showJsonSample(json_sample_widget, json_sample):
     json_sample_widget.setReadOnly(True)
     json_sample_widget.setMinimumSize(600, 350)
     json_sample_widget.setWindowModality(Qt.WindowModality.ApplicationModal)
-    json_sample_widget.setWindowTitle(LangClass.TRANSLATIONS['JSON Sample'])
+    json_sample_widget.setWindowTitle('JSON Sample')
     json_sample_widget.setWindowModality(Qt.WindowModality.ApplicationModal)
     json_sample_widget.setWindowFlags(
         Qt.WindowType.Window | Qt.WindowType.WindowCloseButtonHint | Qt.WindowType.WindowStaysOnTopHint)
@@ -385,24 +382,3 @@ def handle_exception(exc_type, exc_value, exc_traceback):
     msg_box.setInformativeText(error_msg)
     msg_box.setWindowTitle("Error")
     msg_box.exec_()
-
-
-def set_auto_start_windows(enable: bool):
-    # If OS is not Windows, return
-    if sys.platform != 'win32':
-        return
-
-    # If this is not a frozen application, return
-    if not is_frozen():
-        return
-
-    key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, AUTOSTART_REGISTRY_KEY, 0, winreg.KEY_WRITE)
-
-    if enable:
-        exe_path = sys.executable  # Current executable path
-        winreg.SetValueEx(key, DEFAULT_APP_NAME, 0, winreg.REG_SZ, exe_path)
-    else:
-        try:
-            winreg.DeleteValue(key, DEFAULT_APP_NAME)
-        except FileNotFoundError:
-            pass

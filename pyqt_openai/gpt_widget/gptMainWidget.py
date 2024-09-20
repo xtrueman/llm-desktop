@@ -13,7 +13,6 @@ from pyqt_openai.gpt_widget.center.chatWidget import ChatWidget
 from pyqt_openai.gpt_widget.left_sidebar.chatNavWidget import ChatNavWidget
 from pyqt_openai.gpt_widget.prompt_gen_widget.promptGeneratorWidget import PromptGeneratorWidget
 from pyqt_openai.gpt_widget.right_sidebar.gptRightSideBarWidget import GPTRightSideBarWidget
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.models import ChatThreadContainer, ChatMessageContainer, CustomizeParamsContainer
 from pyqt_openai.pyqt_openai_data import DB, LLAMAINDEX_WRAPPER
 from pyqt_openai.pyqt_openai_data import is_openai_enabled
@@ -57,14 +56,14 @@ class GPTMainWidget(QWidget):
         try:
             self.__gptRightSideBarWidget.onDirectorySelected.connect(LLAMAINDEX_WRAPPER.set_directory)
         except Exception as e:
-            QMessageBox.critical(self, LangClass.TRANSLATIONS["Error"], str(e))
+            QMessageBox.critical(self, "Error", str(e))
 
         self.__promptGeneratorWidget = PromptGeneratorWidget()
 
         self.__sideBarBtn = Button()
         self.__sideBarBtn.setStyleAndIcon(ICON_SIDEBAR)
         self.__sideBarBtn.setCheckable(True)
-        self.__sideBarBtn.setToolTip(LangClass.TRANSLATIONS['Chat List'] + f' ({DEFAULT_SHORTCUT_LEFT_SIDEBAR_WINDOW})')
+        self.__sideBarBtn.setToolTip('Chat List' + f' ({DEFAULT_SHORTCUT_LEFT_SIDEBAR_WINDOW})')
         self.__sideBarBtn.setChecked(self.__show_chat_list)
         self.__sideBarBtn.toggled.connect(self.toggleSideBar)
         self.__sideBarBtn.setShortcut(DEFAULT_SHORTCUT_LEFT_SIDEBAR_WINDOW)
@@ -72,7 +71,7 @@ class GPTMainWidget(QWidget):
         self.__settingBtn = Button()
         self.__settingBtn.setStyleAndIcon(ICON_SETTING)
         self.__settingBtn.setToolTip(
-            LangClass.TRANSLATIONS['Chat Settings'] + f' ({DEFAULT_SHORTCUT_RIGHT_SIDEBAR_WINDOW})')
+            'Chat Settings' + f' ({DEFAULT_SHORTCUT_RIGHT_SIDEBAR_WINDOW})')
         self.__settingBtn.setCheckable(True)
         self.__settingBtn.setChecked(self.__show_setting)
         self.__settingBtn.toggled.connect(self.toggleSetting)
@@ -81,7 +80,7 @@ class GPTMainWidget(QWidget):
         self.__promptBtn = Button()
         self.__promptBtn.setStyleAndIcon(ICON_PROMPT)
         self.__promptBtn.setToolTip(
-            LangClass.TRANSLATIONS['Prompt Generator'] + f' ({DEFAULT_SHORTCUT_CONTROL_PROMPT_WINDOW})')
+            'Prompt Generator' + f' ({DEFAULT_SHORTCUT_CONTROL_PROMPT_WINDOW})')
         self.__promptBtn.setCheckable(True)
         self.__promptBtn.setChecked(self.__show_prompt)
         self.__promptBtn.toggled.connect(self.togglePrompt)
@@ -89,7 +88,7 @@ class GPTMainWidget(QWidget):
 
         sep = getSeparator('vertical')
 
-        self.__toggleFindToolButton = QPushButton(LangClass.TRANSLATIONS['Show Find Tool'])
+        self.__toggleFindToolButton = QPushButton('Show Find Tool')
         self.__toggleFindToolButton.setCheckable(True)
         self.__toggleFindToolButton.setChecked(False)
         self.__toggleFindToolButton.toggled.connect(self.__chatWidget.toggleMenuWidget)
@@ -219,7 +218,7 @@ class GPTMainWidget(QWidget):
         self.__chatWidget.clearMessages()
 
     def __addThread(self):
-        title = LangClass.TRANSLATIONS['New Chat']
+        title = 'New Chat'
         cur_id = DB.insertThread(title)
         self.__chatWidget.showTitle(title)
         self.__chatWidget.showMessages(cur_id)
@@ -239,11 +238,11 @@ class GPTMainWidget(QWidget):
                     DB.insertMessage(container, deactivate_trigger=True)
             self.__chatNavWidget.refreshData()
         except Exception as e:
-            QMessageBox.critical(self, LangClass.TRANSLATIONS["Error"],
-                                 LangClass.TRANSLATIONS['Check whether the file is a valid JSON file for importing.'])
+            QMessageBox.critical(self, "Error",
+                                 'Check whether the file is a valid JSON file for importing.')
 
     def __exportChat(self, ids):
-        file_data = QFileDialog.getSaveFileName(self, LangClass.TRANSLATIONS['Save'], QFILEDIALOG_DEFAULT_DIRECTORY,
+        file_data = QFileDialog.getSaveFileName(self, 'Save', QFILEDIALOG_DEFAULT_DIRECTORY,
                                                 f'{JSON_FILE_EXT_LIST_STR};;txt files Compressed File (*.zip);;html files Compressed File (*.zip)')
         if file_data[0]:
             filename = file_data[0]

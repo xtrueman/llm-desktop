@@ -6,7 +6,6 @@ from PySide6.QtWidgets import QGraphicsScene, QGraphicsPixmapItem, QGraphicsView
     QFileDialog
 
 from pyqt_openai import ICON_SAVE, ICON_ADD, ICON_DELETE
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.widgets.button import Button
 
 
@@ -104,7 +103,7 @@ class ThumbnailView(QGraphicsView):
         QApplication.clipboard().setPixmap(self._p)
 
     def __save(self):
-        filename = QFileDialog.getSaveFileName(self, LangClass.TRANSLATIONS['Save'], os.path.expanduser('~'), 'Image file (*.png)')
+        filename = QFileDialog.getSaveFileName(self, 'Save', os.path.expanduser('~'), 'Image file (*.png)')
         if filename[0]:
             filename = filename[0]
             if filename:

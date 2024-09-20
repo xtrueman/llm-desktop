@@ -13,7 +13,6 @@ from pyqt_openai.config_loader import CONFIG_MANAGER
 from pyqt_openai.gpt_widget.center.commandSuggestionWidget import CommandSuggestionWidget
 from pyqt_openai.gpt_widget.center.textEditPromptGroup import TextEditPromptGroup
 from pyqt_openai.gpt_widget.center.uploadedImageFileWidget import UploadedImageFileWidget
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.pyqt_openai_data import DB
 from pyqt_openai.util.script import get_content_of_text_file_for_send
 from pyqt_openai.widgets.button import Button
@@ -39,7 +38,7 @@ class Prompt(QWidget):
 
     def __initUi(self):
         # Prompt control buttons
-        self.__stopBtn = QPushButton(LangClass.TRANSLATIONS['Stop'])
+        self.__stopBtn = QPushButton('Stop')
         self.__stopBtn.clicked.connect(self.onStoppedClicked.emit)
 
         lay = QHBoxLayout()
@@ -79,36 +78,36 @@ class Prompt(QWidget):
 
         self.__sendBtn = Button()
         self.__sendBtn.setStyleAndIcon(ICON_SEND)
-        self.__sendBtn.setToolTip(LangClass.TRANSLATIONS['Send'] + f' ({DEFAULT_SHORTCUT_SEND})')
+        self.__sendBtn.setToolTip('Send' + f' ({DEFAULT_SHORTCUT_SEND})')
         self.__sendBtn.setShortcut(DEFAULT_SHORTCUT_SEND)
 
         settingsBtn = ToolButton()
         settingsBtn.setStyleAndIcon(ICON_VERTICAL_THREE_DOTS)
-        settingsBtn.setToolTip(LangClass.TRANSLATIONS['Prompt Settings'])
+        settingsBtn.setToolTip('Prompt Settings')
 
         # Create the menu
         menu = QMenu(self)
 
         # Create the actions
-        beginningAction = QAction(LangClass.TRANSLATIONS['Show Beginning'] + f' ({DEFAULT_SHORTCUT_PROMPT_BEGINNING})', self)
+        beginningAction = QAction('Show Beginning' + f' ({DEFAULT_SHORTCUT_PROMPT_BEGINNING})', self)
         beginningAction.setShortcut(DEFAULT_SHORTCUT_PROMPT_BEGINNING)
         beginningAction.setCheckable(True)
         beginningAction.toggled.connect(self.__showBeginning)
 
-        endingAction = QAction(LangClass.TRANSLATIONS['Show Ending'] + f' ({DEFAULT_SHORTCUT_PROMPT_ENDING})', self)
+        endingAction = QAction('Show Ending' + f' ({DEFAULT_SHORTCUT_PROMPT_ENDING})', self)
         endingAction.setShortcut(DEFAULT_SHORTCUT_PROMPT_ENDING)
         endingAction.setCheckable(True)
         endingAction.toggled.connect(self.__showEnding)
 
-        supportPromptCommandAction = QAction(LangClass.TRANSLATIONS['Support Prompt Command'] + f' ({DEFAULT_SHORTCUT_SUPPORT_PROMPT_COMMAND})', self)
+        supportPromptCommandAction = QAction('Support Prompt Command' + f' ({DEFAULT_SHORTCUT_SUPPORT_PROMPT_COMMAND})', self)
         supportPromptCommandAction.setShortcut(DEFAULT_SHORTCUT_SUPPORT_PROMPT_COMMAND)
         supportPromptCommandAction.setCheckable(True)
         supportPromptCommandAction.toggled.connect(self.__supportPromptCommand)
 
-        readingFilesAction = QAction(LangClass.TRANSLATIONS['Upload Files...'], self)
+        readingFilesAction = QAction('Upload Files...', self)
         readingFilesAction.triggered.connect(self.__readingFiles)
 
-        self.__writeJSONAction = QAction(LangClass.TRANSLATIONS['Write JSON'], self)
+        self.__writeJSONAction = QAction('Write JSON', self)
         self.__writeJSONAction.toggled.connect(self.__showJSON)
         self.__writeJSONAction.setCheckable(True)
         self.__toggleJSONAction(self.__json_object)
@@ -268,7 +267,7 @@ class Prompt(QWidget):
         self.__textEditGroup.setCommandEnabled(f)
 
     def __readingFiles(self):
-        filenames = QFileDialog.getOpenFileNames(self, LangClass.TRANSLATIONS['Find'], QFILEDIALOG_DEFAULT_DIRECTORY, READ_FILE_EXT_LIST_STR)
+        filenames = QFileDialog.getOpenFileNames(self, 'Find', QFILEDIALOG_DEFAULT_DIRECTORY, READ_FILE_EXT_LIST_STR)
         if filenames[0]:
             filenames = filenames[0]
             cur_file_extension = Path(filenames[0]).suffix

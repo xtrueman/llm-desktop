@@ -4,7 +4,6 @@ from PySide6.QtWidgets import QSpinBox, QGroupBox, QVBoxLayout, QComboBox, \
 
 from pyqt_openai.config_loader import CONFIG_MANAGER
 from pyqt_openai.dalle_widget.dalleThread import DallEThread
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.widgets.imageControlWidget import ImageControlWidget
 
 
@@ -36,10 +35,10 @@ class DallERightSideBarWidget(ImageControlWidget):
     def _initUi(self):
         super()._initUi()
 
-        self.__promptTypeToShowRadioGrpBox = QGroupBox(LangClass.TRANSLATIONS['Prompt Type To Show'])
+        self.__promptTypeToShowRadioGrpBox = QGroupBox('Prompt Type To Show')
 
-        self.__normalOne = QRadioButton(LangClass.TRANSLATIONS['Normal'])
-        self.__revisedOne = QRadioButton(LangClass.TRANSLATIONS['Revised'])
+        self.__normalOne = QRadioButton('Normal')
+        self.__revisedOne = QRadioButton('Revised')
 
         if self.__prompt_type == 1:
             self.__normalOne.setChecked(True)
@@ -74,7 +73,7 @@ class DallERightSideBarWidget(ImageControlWidget):
         self.__nSpinBox.valueChanged.connect(self.__dalleChanged)
         self.__nSpinBox.setEnabled(False)
 
-        self.__sizeLimitLabel = QLabel(LangClass.TRANSLATIONS['※ Images can have a size of 1024x1024, 1024x1792 or 1792x1024 pixels.'])
+        self.__sizeLimitLabel = QLabel('※ Images can have a size of 1024x1024, 1024x1792 or 1792x1024 pixels.')
         self.__sizeLimitLabel.setWordWrap(True)
 
         self.__widthCmbBox = QComboBox()
@@ -90,20 +89,20 @@ class DallERightSideBarWidget(ImageControlWidget):
         self.__promptWidget = QPlainTextEdit()
         self.__promptWidget.setPlainText(self.__prompt)
         self.__promptWidget.textChanged.connect(self.__dalleTextChanged)
-        self.__promptWidget.setPlaceholderText(LangClass.TRANSLATIONS['Enter prompt here...'])
+        self.__promptWidget.setPlaceholderText('Enter prompt here...')
 
         self.__styleCmbBox = QComboBox()
         self.__styleCmbBox.addItems(['vivid', 'natural'])
         self.__styleCmbBox.currentTextChanged.connect(self.__dalleChanged)
 
         lay = QFormLayout()
-        lay.addRow(LangClass.TRANSLATIONS['Quality'], self.__qualityCmbBox)
-        lay.addRow(LangClass.TRANSLATIONS['Total'], self.__nSpinBox)
+        lay.addRow('Quality', self.__qualityCmbBox)
+        lay.addRow('Total', self.__nSpinBox)
         lay.addRow(self.__sizeLimitLabel)
-        lay.addRow(LangClass.TRANSLATIONS['Width'], self.__widthCmbBox)
-        lay.addRow(LangClass.TRANSLATIONS['Height'], self.__heightCmbBox)
-        lay.addRow(LangClass.TRANSLATIONS['Style'], self.__styleCmbBox)
-        lay.addRow(QLabel(LangClass.TRANSLATIONS['Prompt']))
+        lay.addRow('Width', self.__widthCmbBox)
+        lay.addRow('Height', self.__heightCmbBox)
+        lay.addRow('Style', self.__styleCmbBox)
+        lay.addRow(QLabel('Prompt'))
         lay.addRow(self.__promptWidget)
         self._paramGrpBox.setLayout(lay)
 

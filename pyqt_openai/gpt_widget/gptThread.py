@@ -1,3 +1,4 @@
+import pprint, traceback
 import openai
 from llama_index.core.base.response.schema import StreamingResponse
 from PySide6.QtCore import QThread, Signal
@@ -30,6 +31,7 @@ class GPTThread(QThread):
 
     def run(self):
         try:
+            pprint.pprint(self.__input_args)
             response = OPENAI_STRUCT.chat.completions.create(
                 **self.__input_args
             )
@@ -53,11 +55,15 @@ class GPTThread(QThread):
                                     self.__info.finish_reason = chunk.choices[0].finish_reason
                                     self.streamFinished.emit(self.__info)
             else:
+                pprint.pprint( response )
                 self.__info = form_response(response, self.__info)
                 self.replyGenerated.emit(self.__info.content, False, self.__info)
         except Exception as e:
+            print( f"{type(e).__name__}: {e}" )
+            traceback.print_exc()
+
             self.__info.finish_reason = 'Error'
-            self.__info.content = f'<p style="color:red">{e}</p>'
+            self.__info.content = f'<p style="color:red">{type(e).__name__}: {e}</p>'
             self.replyGenerated.emit(self.__info.content, False, self.__info)
 
 

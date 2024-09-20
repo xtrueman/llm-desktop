@@ -3,7 +3,6 @@ from PySide6.QtGui import QFont
 from PySide6.QtWidgets import QLabel, QWidget, QVBoxLayout, QScrollArea
 
 from pyqt_openai import CONTEXT_DELIMITER, HOW_TO_REPLICATE
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.widgets.linkLabel import LinkLabel
 
 
@@ -17,8 +16,8 @@ class ReplicateHome(QScrollArea):
         title.setFont(QFont('Arial', 32))
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        description = QLabel(LangClass.TRANSLATIONS['Generate images with Replicate API.'] + '\n'
-                               + LangClass.TRANSLATIONS['You can use a lot of models to generate images, only you need to have an API key.'] + CONTEXT_DELIMITER)
+        description = QLabel('Generate images with Replicate API.' + '\n'
+                               + 'You can use a lot of models to generate images, only you need to have an API key.' + CONTEXT_DELIMITER)
 
         description.setFont(QFont('Arial', 16))
         description.setAlignment(Qt.AlignmentFlag.AlignCenter)

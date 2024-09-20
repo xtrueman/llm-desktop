@@ -12,7 +12,6 @@ from pyqt_openai import THREAD_ORDERBY, ICON_ADD, ICON_DELETE, ICON_IMPORT, ICON
 from pyqt_openai.gpt_widget.left_sidebar.chatImportDialog import ChatImportDialog
 from pyqt_openai.gpt_widget.left_sidebar.exportDialog import ExportDialog
 from pyqt_openai.gpt_widget.left_sidebar.importDialog import ImportDialog
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.models import ChatThreadContainer
 from pyqt_openai.pyqt_openai_data import DB
 from pyqt_openai.widgets.button import Button
@@ -80,21 +79,21 @@ class BaseNavWidget(QWidget):
 
     def __initUi(self):
         imageGenerationHistoryLbl = QLabel()
-        imageGenerationHistoryLbl.setText(LangClass.TRANSLATIONS['History'])
+        imageGenerationHistoryLbl.setText('History')
 
         self._searchBar = SearchBar()
-        self._searchBar.setPlaceHolder(LangClass.TRANSLATIONS['Search...'])
+        self._searchBar.setPlaceHolder('Search...')
         self._searchBar.searched.connect(self._search)
 
         self._delBtn = Button()
         self._delBtn.setStyleAndIcon(ICON_DELETE)
         self._delBtn.clicked.connect(self._delete)
-        self._delBtn.setToolTip(LangClass.TRANSLATIONS['Delete Certain Row'])
+        self._delBtn.setToolTip('Delete Certain Row')
 
         self._clearBtn = Button()
         self._clearBtn.setStyleAndIcon(ICON_CLOSE)
         self._clearBtn.clicked.connect(self._clear)
-        self._clearBtn.setToolTip(LangClass.TRANSLATIONS['Remove All'])
+        self._clearBtn.setToolTip('Remove All')
 
     def setModel(self, table_type='chat'):
         self._model = SqlTableModel(table_type, self)
@@ -155,8 +154,8 @@ class BaseNavWidget(QWidget):
         Clear all data in the table
         '''
         # Before clearing, confirm the action
-        reply = QMessageBox.question(self, LangClass.TRANSLATIONS['Confirm'],
-                                     LangClass.TRANSLATIONS['Are you sure to clear all data?'],
+        reply = QMessageBox.question(self, 'Confirm',
+                                     'Are you sure to clear all data?',
                                      QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
         if reply == QMessageBox.StandardButton.Yes:
             if table_type == 'chat':

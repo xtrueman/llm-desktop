@@ -3,7 +3,6 @@ from PySide6.QtWidgets import QPushButton, QCheckBox, QDialogButtonBox, QDialog,
     QLabel
 
 from pyqt_openai import SENTENCE_PROMPT_GROUP_SAMPLE, FORM_PROMPT_GROUP_SAMPLE
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.util.script import showJsonSample
 from pyqt_openai.widgets.checkBoxListWidget import CheckBoxListWidget
 from pyqt_openai.widgets.jsonEditor import JSONEditor
@@ -20,15 +19,15 @@ class PromptGroupExportDialog(QDialog):
         self.__promptType = prompt_type
 
     def __initUi(self):
-        self.setWindowTitle(LangClass.TRANSLATIONS["Export Prompt Group"])
+        self.setWindowTitle("Export Prompt Group")
         self.setWindowFlags(Qt.WindowType.Window | Qt.WindowType.WindowCloseButtonHint)
 
-        btn = QPushButton(LangClass.TRANSLATIONS['Preview of the JSON format to be created after export'])
+        btn = QPushButton('Preview of the JSON format to be created after export')
         btn.clicked.connect(self.__showJsonSample)
 
         self.__jsonSampleWidget = JSONEditor()
 
-        allCheckBox = QCheckBox(LangClass.TRANSLATIONS['Select All'])
+        allCheckBox = QCheckBox('Select All')
         self.__listWidget = CheckBoxListWidget()
         self.__listWidget.addItems([d['name'] for d in self.__data])
         self.__listWidget.checkedSignal.connect(self.__toggledBtn)
@@ -39,7 +38,7 @@ class PromptGroupExportDialog(QDialog):
         self.__buttonBox.rejected.connect(self.reject)
 
         lay = QVBoxLayout()
-        lay.addWidget(QLabel(LangClass.TRANSLATIONS['Select the prompts you want to export.']))
+        lay.addWidget(QLabel('Select the prompts you want to export.'))
         lay.addWidget(allCheckBox)
         lay.addWidget(self.__listWidget)
         lay.addWidget(btn)

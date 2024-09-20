@@ -6,7 +6,6 @@ from PySide6.QtGui import QTextCursor, QTextCharFormat, QColor
 from PySide6.QtWidgets import QTextEdit, QMessageBox
 
 from pyqt_openai import INDENT_SIZE, DEFAULT_SOURCE_HIGHLIGHT_COLOR, DEFAULT_SOURCE_ERROR_COLOR
-from pyqt_openai.lang.translations import LangClass
 
 
 class JSONEditor(QTextEdit):
@@ -17,7 +16,7 @@ class JSONEditor(QTextEdit):
         font = self.font()
 
         self.setFont(font)
-        self.setPlaceholderText(LangClass.TRANSLATIONS["Enter JSON data here..."])
+        self.setPlaceholderText("Enter JSON data here...")
         self.textChanged.connect(self.on_text_changed)
         self.error_format = QTextCharFormat()
         self.error_format.setUnderlineColor(QColor(DEFAULT_SOURCE_ERROR_COLOR))

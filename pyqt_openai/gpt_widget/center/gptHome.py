@@ -5,7 +5,6 @@ from PySide6.QtGui import QFont, QPixmap
 from PySide6.QtWidgets import QLabel, QWidget, QVBoxLayout, QScrollArea
 
 from pyqt_openai import DEFAULT_APP_NAME, HOW_TO_GET_OPENAI_API_KEY_URL
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.widgets.linkLabel import LinkLabel
 
 
@@ -20,16 +19,16 @@ class GPTHome(QScrollArea):
         title.setFont(QFont('Arial', 32))
         title.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
-        description = QLabel(LangClass.TRANSLATIONS['Enjoy convenient chatting, all day long!'])
+        description = QLabel('Enjoy convenient chatting, all day long!')
 
         self.__quickStartManualLbl = LinkLabel()
-        self.__quickStartManualLbl.setText(LangClass.TRANSLATIONS['Quick Start Manual'])
+        self.__quickStartManualLbl.setText('Quick Start Manual')
         self.__quickStartManualLbl.setUrl(HOW_TO_GET_OPENAI_API_KEY_URL)
         self.__quickStartManualLbl.setFont(QFont('Arial', 16))
         self.__quickStartManualLbl.setAlignment(Qt.AlignmentFlag.AlignCenter)
 
         self.__openaiApiManualLbl = LinkLabel()
-        self.__openaiApiManualLbl.setText(LangClass.TRANSLATIONS['How to get OpenAI API Key?'])
+        self.__openaiApiManualLbl.setText('How to get OpenAI API Key?')
         self.__openaiApiManualLbl.setUrl(HOW_TO_GET_OPENAI_API_KEY_URL)
         self.__openaiApiManualLbl.setFont(QFont('Arial', 16))
         self.__openaiApiManualLbl.setAlignment(Qt.AlignmentFlag.AlignCenter)

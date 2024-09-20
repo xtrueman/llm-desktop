@@ -4,7 +4,6 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QStyledItemDelegate, QTableV
     QMessageBox, QLabel
 
 from pyqt_openai import ICON_DELETE, ICON_CLOSE
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.pyqt_openai_data import DB
 from pyqt_openai.widgets.baseNavWidget import BaseNavWidget
 from pyqt_openai.widgets.button import Button
@@ -57,7 +56,7 @@ class ImageNavWidget(BaseNavWidget):
         self.setModel(table_type='image')
 
         imageGenerationHistoryLbl = QLabel()
-        imageGenerationHistoryLbl.setText(LangClass.TRANSLATIONS['History'])
+        imageGenerationHistoryLbl.setText('History')
 
         lay = QHBoxLayout()
         lay.addWidget(self._searchBar)
@@ -98,12 +97,12 @@ class ImageNavWidget(BaseNavWidget):
         data = DB.selectCertainImage(cur_id)['data']
         if data:
             if isinstance(data, str):
-                QMessageBox.critical(self, LangClass.TRANSLATIONS['Error'], LangClass.TRANSLATIONS['Image URL can\'t be seen after v0.2.51, Now it is replaced with b64_json.'])
+                QMessageBox.critical(self, 'Error', 'Image URL can\'t be seen after v0.2.51, Now it is replaced with b64_json.')
             else:
                 data = QByteArray(data).data()
                 self.getContent.emit(data)
         else:
-            QMessageBox.critical(self, LangClass.TRANSLATIONS['Error'], LangClass.TRANSLATIONS['No image data is found. Maybe you are using really old version.'])
+            QMessageBox.critical(self, 'Error', 'No image data is found. Maybe you are using really old version.')
 
     def _search(self, text):
         # index -1 will be read from all columns

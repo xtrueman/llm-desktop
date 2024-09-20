@@ -7,7 +7,6 @@ from pyqt_openai.gpt_widget.center.gptHome import GPTHome
 from pyqt_openai.gpt_widget.center.menuWidget import MenuWidget
 from pyqt_openai.gpt_widget.center.prompt import Prompt
 from pyqt_openai.gpt_widget.gptThread import LlamaOpenAIThread, GPTThread
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.models import ChatMessageContainer
 from pyqt_openai.pyqt_openai_data import LLAMAINDEX_WRAPPER, get_argument, DB
 from pyqt_openai.widgets.notifier import NotifierWidget
@@ -143,18 +142,18 @@ class ChatWidget(QWidget):
                     else:
                         LLAMAINDEX_WRAPPER.set_query_engine(streaming=stream, similarity_top_k=3)
                 else:
-                    QMessageBox.warning(self, LangClass.TRANSLATIONS["Warning"], LangClass.TRANSLATIONS['LLAMA index is not available. Please check the directory path or disable the llama index.'])
+                    QMessageBox.warning(self, "Warning", 'LLAMA index is not available. Please check the directory path or disable the llama index.')
                     return
 
             # Check JSON response is valid
             if is_json_response_available:
                 if not json_content:
-                    QMessageBox.critical(self, LangClass.TRANSLATIONS["Error"], LangClass.TRANSLATIONS['JSON content is empty. Please fill in the JSON content field.'])
+                    QMessageBox.critical(self, "Error", 'JSON content is empty. Please fill in the JSON content field.')
                     return
                 try:
                     json.loads(json_content)
                 except Exception as e:
-                    QMessageBox.critical(self, LangClass.TRANSLATIONS["Error"], f'{LangClass.TRANSLATIONS["JSON content is not valid. Please check the JSON content field."]}\n\n{e}')
+                    QMessageBox.critical(self, "Error", f'{"JSON content is not valid. Please check the JSON content field."}\n\n{e}')
                     return
 
             # Get parameters for OpenAI
@@ -207,7 +206,7 @@ class ChatWidget(QWidget):
             f = tb.tb_frame
             lineno = tb.tb_lineno
             filename = f.f_code.co_filename
-            QMessageBox.critical(self, LangClass.TRANSLATIONS["Error"], f'''
+            QMessageBox.critical(self, "Error", f'''
                 {str(e)},
                 'File: {filename}',
                 'Line: {lineno}'
@@ -230,7 +229,7 @@ class ChatWidget(QWidget):
         self.__mainPrompt.setFocus()
         if not self.isVisible() or not self.window().isActiveWindow():
             if self.__notify_finish:
-                self.__notifierWidget = NotifierWidget(informative_text=LangClass.TRANSLATIONS['Response 👌'], detailed_text = self.__browser.getLastResponse())
+                self.__notifierWidget = NotifierWidget(informative_text='Response 👌', detailed_text = self.__browser.getLastResponse())
                 self.__notifierWidget.show()
                 self.__notifierWidget.doubleClicked.connect(self.__bringWindowToFront)
 

@@ -2,7 +2,6 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QDialog, QVBoxLayout, \
     QDialogButtonBox, QMessageBox
 
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.models import SettingsParamsContainer
 from pyqt_openai.settings_dialog.generalSettingsWidget import GeneralSettingsWidget
 
@@ -13,7 +12,7 @@ class SettingsDialog(QDialog):
         self.__initUi()
 
     def __initUi(self):
-        self.setWindowTitle(LangClass.TRANSLATIONS["Settings"])
+        self.setWindowTitle("Settings")
         self.setWindowFlags(Qt.WindowType.Window | Qt.WindowType.WindowCloseButtonHint)
 
         self.__generalSettingsWidget = GeneralSettingsWidget()
@@ -32,7 +31,7 @@ class SettingsDialog(QDialog):
     def __accept(self):
         # If DB file name is empty
         if self.__generalSettingsWidget.db.strip() == '':
-            QMessageBox.critical(self, LangClass.TRANSLATIONS['Error'], LangClass.TRANSLATIONS['Database name cannot be empty.'])
+            QMessageBox.critical(self, 'Error', 'Database name cannot be empty.')
         else:
             self.accept()
 

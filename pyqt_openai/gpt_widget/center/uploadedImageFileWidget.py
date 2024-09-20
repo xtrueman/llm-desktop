@@ -6,7 +6,6 @@ from PySide6.QtWidgets import QWidget, QLabel, QVBoxLayout, QPushButton, QHBoxLa
     QScrollArea
 
 from pyqt_openai import PROMPT_IMAGE_SCALE, IMAGE_FILE_EXT_LIST
-from pyqt_openai.lang.translations import LangClass
 
 
 class UploadedImageFileWidget(QWidget):
@@ -20,12 +19,12 @@ class UploadedImageFileWidget(QWidget):
         self.__original_pixmaps = []  # Array of original images
 
     def __initUi(self):
-        lbl = QLabel(LangClass.TRANSLATIONS['Uploaded Files (Only Images)'])
-        self.__activateDeleteBtn = QPushButton(LangClass.TRANSLATIONS['Delete'])
+        lbl = QLabel('Uploaded Files (Only Images)')
+        self.__activateDeleteBtn = QPushButton('Delete')
         self.__activateDeleteBtn.setCheckable(True)
         self.__activateDeleteBtn.toggled.connect(self.__activateDelete)
 
-        self.__manualLbl = QLabel(LangClass.TRANSLATIONS['Click the image to delete'])
+        self.__manualLbl = QLabel('Click the image to delete')
         self.__manualLbl.setStyleSheet('color: red;')
 
         lay = QHBoxLayout()
@@ -111,9 +110,9 @@ class UploadedImageFileWidget(QWidget):
         f = self.__activateDeleteBtn.isChecked()
         self.__manualLbl.setVisible(f)
         if f:
-            self.__activateDeleteBtn.setText(LangClass.TRANSLATIONS['Cancel'])
+            self.__activateDeleteBtn.setText('Cancel')
         else:
-            self.__activateDeleteBtn.setText(LangClass.TRANSLATIONS['Delete'])
+            self.__activateDeleteBtn.setText('Delete')
         self.__delete_mode = f
 
     def clear(self):

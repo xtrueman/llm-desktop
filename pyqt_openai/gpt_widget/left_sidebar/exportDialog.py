@@ -6,7 +6,6 @@ from PySide6.QtCore import Qt
 from PySide6.QtWidgets import QTableWidgetItem, QLabel, QDialogButtonBox, QCheckBox, QDialog, QVBoxLayout
 
 from pyqt_openai import THREAD_ORDERBY
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.widgets.checkBoxTableWidget import CheckBoxTableWidget
 
 
@@ -22,7 +21,7 @@ class ExportDialog(QDialog):
         self.__sort_by = sort_by
 
     def __initUi(self):
-        self.setWindowTitle(LangClass.TRANSLATIONS["Export"])
+        self.setWindowTitle("Export")
         self.setWindowFlags(Qt.WindowType.Window | Qt.WindowType.WindowCloseButtonHint)
 
         self.__checkBoxTableWidget = CheckBoxTableWidget()
@@ -44,11 +43,11 @@ class ExportDialog(QDialog):
         buttonBox.accepted.connect(self.accept)
         buttonBox.rejected.connect(self.reject)
 
-        allCheckBox = QCheckBox(LangClass.TRANSLATIONS['Select All'])
+        allCheckBox = QCheckBox('Select All')
         allCheckBox.stateChanged.connect(self.__checkBoxTableWidget.toggleState) # if allChkBox is checked, tablewidget checkboxes will also be checked
 
         lay = QVBoxLayout()
-        lay.addWidget(QLabel(LangClass.TRANSLATIONS['Select the threads you want to export.']))
+        lay.addWidget(QLabel('Select the threads you want to export.'))
         lay.addWidget(allCheckBox)
         lay.addWidget(self.__checkBoxTableWidget)
         lay.addWidget(buttonBox)

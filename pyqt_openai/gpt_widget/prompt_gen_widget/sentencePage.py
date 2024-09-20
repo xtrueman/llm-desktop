@@ -12,7 +12,6 @@ from pyqt_openai.gpt_widget.prompt_gen_widget.promptEntryDirectInputDialog impor
 from pyqt_openai.gpt_widget.prompt_gen_widget.promptGroupDirectInputDialog import PromptGroupDirectInputDialog
 from pyqt_openai.gpt_widget.prompt_gen_widget.promptGroupExportDialog import PromptGroupExportDialog
 from pyqt_openai.gpt_widget.prompt_gen_widget.promptGroupImportDialog import PromptGroupImportDialog
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.pyqt_openai_data import DB
 from pyqt_openai.util.script import open_directory, get_prompt_data
 from pyqt_openai.widgets.button import Button
@@ -37,11 +36,11 @@ class SentenceGroupList(QWidget):
 
         self.__importBtn = Button()
         self.__importBtn.setStyleAndIcon(ICON_IMPORT)
-        self.__importBtn.setToolTip(LangClass.TRANSLATIONS['Import'])
+        self.__importBtn.setToolTip('Import')
 
         self.__exportBtn = Button()
         self.__exportBtn.setStyleAndIcon(ICON_EXPORT)
-        self.__exportBtn.setToolTip(LangClass.TRANSLATIONS['Export'])
+        self.__exportBtn.setToolTip('Export')
 
         self.__addBtn.clicked.connect(self.__add)
         self.__delBtn.clicked.connect(self.__delete)
@@ -51,7 +50,7 @@ class SentenceGroupList(QWidget):
         lay = QHBoxLayout()
         # Should've added "Sentence Group" to the translation, but it's not in the
         # translation file for incomplete JSON response issue
-        lay.addWidget(QLabel(LangClass.TRANSLATIONS['Sentence'] + ' ' + LangClass.TRANSLATIONS['Group']))
+        lay.addWidget(QLabel('Sentence' + ' ' + 'Group'))
         lay.addSpacerItem(QSpacerItem(10, 10, QSizePolicy.Policy.MinimumExpanding))
         lay.addWidget(self.__addBtn)
         lay.addWidget(self.__delBtn)
@@ -133,7 +132,7 @@ class SentenceGroupList(QWidget):
     def __export(self):
         try:
             # Get the file
-            file_data = QFileDialog.getSaveFileName(self, LangClass.TRANSLATIONS['Save'], QFILEDIALOG_DEFAULT_DIRECTORY, JSON_FILE_EXT_LIST_STR)
+            file_data = QFileDialog.getSaveFileName(self, 'Save', QFILEDIALOG_DEFAULT_DIRECTORY, JSON_FILE_EXT_LIST_STR)
             if file_data[0]:
                 filename = file_data[0]
                 # Get the data
@@ -147,7 +146,7 @@ class SentenceGroupList(QWidget):
                         json.dump(data, f, indent=INDENT_SIZE)
                     open_directory(os.path.dirname(filename))
         except Exception as e:
-            QMessageBox.critical(self, LangClass.TRANSLATIONS['Error'], str(e))
+            QMessageBox.critical(self, 'Error', str(e))
             print(e)
 
     def __itemChanged(self, item):
@@ -200,7 +199,7 @@ class PromptTable(QWidget):
         self.__table = QTableWidget()
         self.__table.setColumnCount(2)
         self.__table.setSelectionBehavior(QAbstractItemView.SelectionBehavior.SelectRows)
-        self.__table.setHorizontalHeaderLabels([LangClass.TRANSLATIONS['Name'], LangClass.TRANSLATIONS['Value']])
+        self.__table.setHorizontalHeaderLabels(['Name', 'Value'])
         self.__table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeMode.Stretch)
         self.__table.currentItemChanged.connect(self.__rowChanged)
         self.__table.itemChanged.connect(self.__saveChangedPrompt)

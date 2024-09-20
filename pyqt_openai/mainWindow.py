@@ -21,14 +21,12 @@ from pyqt_openai.customizeDialog import CustomizeDialog
 from pyqt_openai.dalle_widget.dalleMainWidget import DallEMainWidget
 from pyqt_openai.doNotAskAgainDialog import DoNotAskAgainDialog
 from pyqt_openai.gpt_widget.gptMainWidget import GPTMainWidget
-from pyqt_openai.lang.translations import LangClass
 from pyqt_openai.models import SettingsParamsContainer, CustomizeParamsContainer
 from pyqt_openai.pyqt_openai_data import init_llama
 from pyqt_openai.replicate_widget.replicateMainWidget import ReplicateMainWidget
 from pyqt_openai.settings_dialog.settingsDialog import SettingsDialog
 from pyqt_openai.shortcutDialog import ShortcutDialog
-from pyqt_openai.updateSoftwareDialog import update_software
-from pyqt_openai.util.script import restart_app, show_message_box_after_change_to_restart, set_auto_start_windows
+from pyqt_openai.util.script import restart_app, show_message_box_after_change_to_restart
 from pyqt_openai.widgets.button import Button
 
 
@@ -59,7 +57,6 @@ class MainWindow(QMainWindow):
 
         self.__setActions()
         self.__setMenuBar()
-        self.__setTrayMenu()
         self.__setToolBar()
 
         # load ini file
@@ -80,52 +77,47 @@ class MainWindow(QMainWindow):
         self.__gptWidget.refreshCustomizedInformation(self.__customizeParamsContainer)
 
     def __setActions(self):
-        self.__langAction = QAction()
-
         # menu action
-        self.__exitAction = QAction(LangClass.TRANSLATIONS['Exit'], self)
+        self.__exitAction = QAction('Exit', self)
         self.__exitAction.triggered.connect(self.__beforeClose)
 
-        self.__stackAction = QAction(LangClass.TRANSLATIONS['Stack on Top'], self)
+        self.__stackAction = QAction('Stack on Top', self)
         self.__stackAction.setShortcut(DEFAULT_SHORTCUT_STACK_ON_TOP)
         self.__stackAction.setIcon(QIcon(ICON_STACKONTOP))
         self.__stackAction.setCheckable(True)
         self.__stackAction.toggled.connect(self.__stackToggle)
 
-        self.__showToolBarAction = QAction(LangClass.TRANSLATIONS['Show Toolbar'], self)
+        self.__showToolBarAction = QAction('Show Toolbar', self)
         self.__showToolBarAction.setShortcut(DEFAULT_SHORTCUT_SHOW_TOOLBAR)
         self.__showToolBarAction.setCheckable(True)
         self.__showToolBarAction.setChecked(CONFIG_MANAGER.get_general_property('show_toolbar'))
         self.__showToolBarAction.toggled.connect(self.__toggleToolbar)
 
-        self.__showSecondaryToolBarAction = QAction(LangClass.TRANSLATIONS['Show Secondary Toolbar'], self)
+        self.__showSecondaryToolBarAction = QAction('Show Secondary Toolbar', self)
         self.__showSecondaryToolBarAction.setShortcut(DEFAULT_SHORTCUT_SHOW_SECONDARY_TOOLBAR)
         self.__showSecondaryToolBarAction.setCheckable(True)
         self.__showSecondaryToolBarAction.setChecked(CONFIG_MANAGER.get_general_property('show_secondary_toolbar'))
         self.__showSecondaryToolBarAction.toggled.connect(self.__toggleSecondaryToolBar)
 
-        self.__focusModeAction = QAction(LangClass.TRANSLATIONS['Focus Mode'], self)
+        self.__focusModeAction = QAction('Focus Mode', self)
         self.__focusModeAction.setShortcut(DEFAULT_SHORTCUT_FOCUS_MODE)
         self.__focusModeAction.setIcon(QIcon(ICON_FOCUS_MODE))
         self.__focusModeAction.setCheckable(True)
         self.__focusModeAction.setChecked(CONFIG_MANAGER.get_general_property('focus_mode'))
         self.__focusModeAction.triggered.connect(self.__activateFocusMode)
 
-        self.__fullScreenAction = QAction(LangClass.TRANSLATIONS['Full Screen'], self)
+        self.__fullScreenAction = QAction('Full Screen', self)
         self.__fullScreenAction.setShortcut(DEFAULT_SHORTCUT_FULL_SCREEN)
         self.__fullScreenAction.setIcon(QIcon(ICON_FULLSCREEN))
         self.__fullScreenAction.setCheckable(True)
         self.__fullScreenAction.setChecked(False)
         self.__fullScreenAction.triggered.connect(self.__fullScreenToggle)
 
-        self.__aboutAction = QAction(LangClass.TRANSLATIONS['About...'], self)
+        self.__aboutAction = QAction('About...', self)
         self.__aboutAction.triggered.connect(self.__showAboutDialog)
 
         # TODO LANGAUGE
-        self.__checkUpdateAction = QAction(LangClass.TRANSLATIONS['Check for Updates...'], self)
-        self.__checkUpdateAction.triggered.connect(self.__checkUpdate)
-
-        self.__viewShortcutsAction = QAction(LangClass.TRANSLATIONS['View Shortcuts'], self)
+        self.__viewShortcutsAction = QAction('View Shortcuts', self)
         self.__viewShortcutsAction.triggered.connect(self.__showShortcutsDialog)
 
         self.__githubAction = QAction('Github', self)
@@ -136,16 +128,10 @@ class MainWindow(QMainWindow):
         self.__discordAction.setIcon(QIcon(ICON_DISCORD))
         self.__discordAction.triggered.connect(lambda: webbrowser.open(DISCORD_URL))
 
-        self.__paypalAction = QAction('Paypal', self)
-        self.__paypalAction.triggered.connect(lambda: webbrowser.open(PAYPAL_URL))
-
-        self.__kofiAction = QAction('Ko-fi ❤', self)
-        self.__kofiAction.triggered.connect(lambda: webbrowser.open(KOFI_URL))
-
         # toolbar action
         self.__chooseAiAction = QWidgetAction(self)
         self.__chooseAiCmbBox = QComboBox()
-        self.__chooseAiCmbBox.addItems([LangClass.TRANSLATIONS['Chat'], LangClass.TRANSLATIONS['Image'], 'Replicate'])
+        self.__chooseAiCmbBox.addItems(['Chat', 'Image', 'Replicate'])
         self.__chooseAiCmbBox.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.MinimumExpanding)
         self.__chooseAiCmbBox.currentIndexChanged.connect(self.__aiTypeChanged)
         self.__chooseAiAction.setDefaultWidget(self.__chooseAiCmbBox)
@@ -155,14 +141,14 @@ class MainWindow(QMainWindow):
         self.__customizeBtn.setStyleAndIcon(ICON_CUSTOMIZE)
         self.__customizeBtn.clicked.connect(self.__executeCustomizeDialog)
         self.__customizeAction.setDefaultWidget(self.__customizeBtn)
-        self.__customizeBtn.setToolTip(LangClass.TRANSLATIONS['Customize'])
+        self.__customizeBtn.setToolTip('Customize')
 
         self.__transparentAction = QWidgetAction(self)
         self.__transparentSpinBox = QSpinBox()
         self.__transparentSpinBox.setRange(*TRANSPARENT_RANGE)
         self.__transparentSpinBox.setValue(TRANSPARENT_INIT_VAL)
         self.__transparentSpinBox.valueChanged.connect(self.__setTransparency)
-        self.__transparentSpinBox.setToolTip(LangClass.TRANSLATIONS['Set Transparency of Window'])
+        self.__transparentSpinBox.setToolTip('Set Transparency of Window')
         self.__transparentSpinBox.setMinimumWidth(100)
 
         lay = QHBoxLayout()
@@ -178,7 +164,7 @@ class MainWindow(QMainWindow):
         self.__apiAction = QWidgetAction(self)
         self.__apiAction.setDefaultWidget(self.__apiWidget)
 
-        self.__settingsAction = QAction(LangClass.TRANSLATIONS['Settings'], self)
+        self.__settingsAction = QAction('Settings', self)
         self.__settingsAction.setIcon(QIcon(ICON_SETTING))
         self.__settingsAction.setShortcut(DEFAULT_SHORTCUT_SETTING)
         self.__settingsAction.triggered.connect(self.__showSettingsDialog)
@@ -212,56 +198,26 @@ class MainWindow(QMainWindow):
     def __setMenuBar(self):
         menubar = self.menuBar()
 
-        fileMenu = QMenu(LangClass.TRANSLATIONS['File'], self)
+        fileMenu = QMenu('File', self)
         fileMenu.addAction(self.__settingsAction)
         fileMenu.addAction(self.__exitAction)
 
-        viewMenu = QMenu(LangClass.TRANSLATIONS['View'], self)
+        viewMenu = QMenu('View', self)
         viewMenu.addAction(self.__focusModeAction)
         viewMenu.addAction(self.__fullScreenAction)
         viewMenu.addAction(self.__stackAction)
         viewMenu.addAction(self.__showToolBarAction)
         viewMenu.addAction(self.__showSecondaryToolBarAction)
 
-        helpMenu = QMenu(LangClass.TRANSLATIONS['Help'], self)
+        helpMenu = QMenu('Help', self)
         helpMenu.addAction(self.__aboutAction)
-        helpMenu.addAction(self.__checkUpdateAction)
         helpMenu.addAction(self.__viewShortcutsAction)
         helpMenu.addAction(self.__githubAction)
         helpMenu.addAction(self.__discordAction)
 
-        donateMenu = QMenu(LangClass.TRANSLATIONS['Donate'], self)
-        donateMenu.addAction(self.__paypalAction)
-        donateMenu.addAction(self.__kofiAction)
-
         menubar.addMenu(fileMenu)
         menubar.addMenu(viewMenu)
         menubar.addMenu(helpMenu)
-        menubar.addMenu(donateMenu)
-
-    def __setTrayMenu(self):
-        # background app
-        menu = QMenu()
-        app = QApplication.instance()
-
-        action = QAction("Quit", self)
-        action.setIcon(QIcon(ICON_CLOSE))
-
-        action.triggered.connect(app.quit)
-
-        menu.addAction(action)
-
-        tray_icon = QSystemTrayIcon(app)
-        tray_icon.setIcon(QIcon(DEFAULT_APP_ICON))
-        tray_icon.activated.connect(self.__activated)
-
-        tray_icon.setContextMenu(menu)
-
-        tray_icon.show()
-
-    def __activated(self, reason):
-        if reason == QSystemTrayIcon.ActivationReason.DoubleClick:
-            self.show()
 
     def __setToolBar(self):
         self.__toolbar = QToolBar()
@@ -296,9 +252,6 @@ class MainWindow(QMainWindow):
     def __showAboutDialog(self):
         aboutDialog = AboutDialog(self)
         aboutDialog.exec()
-
-    def __checkUpdate(self):
-        update_software()
 
     def __showShortcutsDialog(self):
         shortcutListWidget = ShortcutDialog(self)
@@ -340,9 +293,6 @@ class MainWindow(QMainWindow):
         """
         for k, v in container.get_items():
             setattr(container, k, CONFIG_MANAGER.get_general_property(k))
-        if isinstance(container, SettingsParamsContainer):
-            self.__lang = LangClass.lang_changed(container.lang)
-            set_auto_start_windows(container.run_at_startup)
 
     def __refreshContainer(self, container):
         if isinstance(container, SettingsParamsContainer):
@@ -357,24 +307,20 @@ class MainWindow(QMainWindow):
 
             # If db name is changed
             if container.db != prev_db:
-                QMessageBox.information(self, LangClass.TRANSLATIONS['Info'], LangClass.TRANSLATIONS["The name of the reference target database has been changed. The changes will take effect after a restart."])
+                QMessageBox.information(self, 'Info', "The name of the reference target database has been changed. The changes will take effect after a restart.")
             # If show_toolbar is changed
             if container.show_toolbar != prev_show_toolbar:
                 self.__toggleToolbar(container.show_toolbar)
-            if container.run_at_startup != prev_run_at_startup:
-                set_auto_start_windows(container.run_at_startup)
             # If show_secondary_toolbar is changed
             if container.show_secondary_toolbar != prev_show_secondary_toolbar:
                 for i in range(self.__mainWidget.count()):
                     currentWidget = self.__mainWidget.widget(i)
                     currentWidget.showSecondaryToolBar(container.show_secondary_toolbar)
             # If properties that require a restart are changed
-            if container.lang != self.__lang or container.show_as_markdown != prev_show_as_markdown:
+            if container.show_as_markdown != prev_show_as_markdown:
                 change_list = []
-                if container.lang != self.__lang:
-                    change_list.append(LangClass.TRANSLATIONS["Language"])
                 if container.show_as_markdown != prev_show_as_markdown:
-                    change_list.append(LangClass.TRANSLATIONS["Show as Markdown"])
+                    change_list.append("Show as Markdown")
                 result = show_message_box_after_change_to_restart(change_list)
                 if result == QMessageBox.StandardButton.Yes:
                     restart_app()
@@ -388,7 +334,7 @@ class MainWindow(QMainWindow):
 
             if container.font_family != prev_font_family or container.font_size != prev_font_size:
                 change_list = [
-                    LangClass.TRANSLATIONS["Font Change"],
+                    "Font Change",
                 ]
                 result = show_message_box_after_change_to_restart(change_list)
                 if result == QMessageBox.StandardButton.Yes:
