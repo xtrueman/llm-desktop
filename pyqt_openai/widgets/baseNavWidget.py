@@ -7,11 +7,8 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QMessageBox, QPushButton, QS
     QHBoxLayout, \
     QLabel, QSpacerItem, QSizePolicy, QComboBox, QDialog
 
-from pyqt_openai import THREAD_ORDERBY, ICON_ADD, ICON_DELETE, ICON_IMPORT, ICON_SAVE, ICON_CLOSE, \
+from pyqt_openai import THREAD_ORDERBY, ICON_ADD, ICON_DELETE, ICON_IMPORT, ICON_CLOSE, \
     ICON_REFRESH
-from pyqt_openai.gpt_widget.left_sidebar.chatImportDialog import ChatImportDialog
-from pyqt_openai.gpt_widget.left_sidebar.exportDialog import ExportDialog
-from pyqt_openai.gpt_widget.left_sidebar.importDialog import ImportDialog
 from pyqt_openai.models import ChatThreadContainer
 from pyqt_openai.pyqt_openai_data import DB
 from pyqt_openai.widgets.button import Button

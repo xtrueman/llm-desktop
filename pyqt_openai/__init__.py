@@ -31,7 +31,7 @@ __author__ = pyproject_data["project"]["authors"][0]['name']
 PACKAGE_NAME = pyproject_data["project"]["name"]
 OWNER = 'yjg30737'
 
-DEFAULT_APP_NAME = 'VividNode'
+DEFAULT_APP_NAME = 'LLM-desktop'
 
 # Check if the application is frozen (compiled with PyInstaller)
 # If this is main.py, it will return False, that means it is not frozen.
@@ -69,17 +69,7 @@ def get_config_directory():
 CONTACT = pyproject_data["project"]["authors"][0]['email']
 APP_INITIAL_WINDOW_SIZE = (1280, 768)
 
-LICENSE = pyproject_data["project"]["license"]['text']
-LICENSE_URL = 'https://github.com/yjg30737/pyqt-openai/blob/main/LICENSE'
-KOFI_URL = 'https://ko-fi.com/junggyuyoon'
-PAYPAL_URL = 'https://paypal.me/yjg30737'
-GITHUB_URL = 'https://github.com/yjg30737/pyqt-openai'
-DISCORD_URL = 'https://discord.gg/cHekprskVE'
-
 QUICKSTART_MANUAL_URL = 'https://medium.com/@yjg30737/what-is-vividnode-how-to-use-it-4d8a9269a3c0'
-LLAMAINDEX_URL = 'https://medium.com/@yjg30737/what-is-llamaindex-9b821d66568f'
-HOW_TO_GET_OPENAI_API_KEY_URL = 'https://medium.com/@yjg30737/how-to-get-your-openai-api-key-e2193850932e'
-HOW_TO_EXPORT_CHATGPT_CONVERSATION_HISTORY_URL = 'https://medium.com/@yjg30737/how-to-export-your-chatgpt-conversation-history-caa0946d6349'
 
 COLUMN_TO_EXCLUDE_FROM_SHOW_HIDE_CHAT = ['id']
 COLUMN_TO_EXCLUDE_FROM_SHOW_HIDE_IMAGE = ['id', 'data']
@@ -119,13 +109,11 @@ ICON_CASE = os.path.join(ICON_PATH, 'case.svg')
 ICON_CLOSE = os.path.join(ICON_PATH, 'close.svg')
 ICON_COPY = os.path.join(ICON_PATH, 'copy.svg')
 ICON_DELETE = os.path.join(ICON_PATH, 'delete.svg')
-ICON_DISCORD = os.path.join(ICON_PATH, 'discord.svg')
 ICON_EXPORT = os.path.join(ICON_PATH, 'export.svg')
 ICON_FAVORITE_NO = os.path.join(ICON_PATH, 'favorite_no.svg')
 ICON_FAVORITE_YES = os.path.join(ICON_PATH, 'favorite_yes.svg')
 ICON_FOCUS_MODE = os.path.join(ICON_PATH, 'focus_mode.svg')
 ICON_FULLSCREEN = os.path.join(ICON_PATH, 'fullscreen.svg')
-ICON_GITHUB = os.path.join(ICON_PATH, 'github.svg')
 ICON_HELP = os.path.join(ICON_PATH, 'help.svg')
 ICON_HISTORY = os.path.join(ICON_PATH, 'history.svg')
 ICON_IMPORT = os.path.join(ICON_PATH, 'import.svg')
@@ -322,17 +310,17 @@ CONFIG_DATA = {
         'stream': True,
         'apikey_openai': '',
         'apikey_anthro': '',
+        'baseurl_openai': '',
+        'baseurl_openai': '',
         'db': 'conv',
         'model': 'gpt-4o',
         'show_setting': True,
         'use_llama_index': False,
-        'do_not_ask_again': False,
         'show_prompt': True,
         'system': 'You are a helpful assistant.',
         'notify_finish': True,
         'temperature': 1,
         'max_tokens': -1,
-        'show_toolbar': True,
         'show_secondary_toolbar': True,
         'top_p': 1,
         'chat_column_to_show': ['id', 'name', 'insert_dt', 'update_dt'],
@@ -341,14 +329,12 @@ CONFIG_DATA = {
         'json_object': False,
         'maximum_messages_in_parameter': MAXIMUM_MESSAGES_IN_PARAMETER,
         'show_as_markdown': True,
-        'run_at_startup': True,
         'use_max_tokens': False,
         'background_image': '',
         'user_image': DEFAULT_USER_IMAGE_PATH,
         'ai_image': DEFAULT_AI_IMAGE_PATH,
         'font_size': DEFAULT_FONT_SIZE,
         'font_family': DEFAULT_FONT_FAMILY,
-        'API_KEY': '',
         'llama_index_directory': '',
         'apply_user_defined_styles': False,
         'focus_mode': False,

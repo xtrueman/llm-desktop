@@ -4,7 +4,7 @@ from PySide6.QtWidgets import QWidget, QDoubleSpinBox, QSpinBox, QFormLayout, QS
 
 from pyqt_openai import DEFAULT_SHORTCUT_JSON_MODE, OPENAI_TEMPERATURE_RANGE, OPENAI_TEMPERATURE_STEP, \
     MAX_TOKENS_RANGE, TOP_P_RANGE, TOP_P_STEP, FREQUENCY_PENALTY_RANGE, PRESENCE_PENALTY_STEP, PRESENCE_PENALTY_RANGE, \
-    FREQUENCY_PENALTY_STEP, LLAMAINDEX_URL
+    FREQUENCY_PENALTY_STEP
 from pyqt_openai.config_loader import CONFIG_MANAGER
 from pyqt_openai.pyqt_openai_data import get_chat_model, init_llama
 from pyqt_openai.util.script import getSeparator
@@ -136,10 +136,6 @@ class ChatPage(QWidget):
         jsonChkBox.setShortcut(DEFAULT_SHORTCUT_JSON_MODE)
         jsonChkBox.setToolTip('When enabled, you can send a JSON object to the API and the response will be in JSON format. Otherwise, it will be in plain text.')
 
-        llamaManualLbl = LinkLabel()
-        llamaManualLbl.setText('What is LlamaIndex?')
-        llamaManualLbl.setUrl(LLAMAINDEX_URL)
-
         llamaChkBox = QCheckBox()
         llamaChkBox.setChecked(self.__use_llama_index)
         llamaChkBox.toggled.connect(self.__use_llama_indexChecked)
@@ -155,7 +151,6 @@ class ChatPage(QWidget):
         lay.addWidget(streamChkBox)
         lay.addWidget(jsonChkBox)
         lay.addWidget(llamaChkBox)
-        lay.addWidget(llamaManualLbl)
         lay.addWidget(sep)
         lay.addWidget(advancedSettingsGrpBox)
         lay.setAlignment(Qt.AlignmentFlag.AlignTop)

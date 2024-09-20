@@ -24,14 +24,11 @@ class GeneralSettingsWidget(QWidget):
         self.baseurl_openai = CONFIG_MANAGER.get_general_property('baseurl_openai')
         self.baseurl_anthro = CONFIG_MANAGER.get_general_property('baseurl_anthro')
         self.db = CONFIG_MANAGER.get_general_property('db')
-        self.do_not_ask_again = CONFIG_MANAGER.get_general_property('do_not_ask_again')
         self.notify_finish = CONFIG_MANAGER.get_general_property('notify_finish')
-        self.show_toolbar = CONFIG_MANAGER.get_general_property('show_toolbar')
         self.show_secondary_toolbar = CONFIG_MANAGER.get_general_property('show_secondary_toolbar')
         self.chat_column_to_show = CONFIG_MANAGER.get_general_property('chat_column_to_show')
         self.maximum_messages_in_parameter = CONFIG_MANAGER.get_general_property('maximum_messages_in_parameter')
         self.show_as_markdown = CONFIG_MANAGER.get_general_property('show_as_markdown')
-        self.run_at_startup = CONFIG_MANAGER.get_general_property('run_at_startup')
 
     def __initUi(self):
         # General
@@ -84,21 +81,14 @@ class GeneralSettingsWidget(QWidget):
         dbLayout.addWidget(self.__dbLineEdit)
 
         # Checkboxes
-        self.__doNotAskAgainCheckBox = QCheckBox(f'{"Do not ask again when closing"} ({"Always close the application"})')
-        self.__doNotAskAgainCheckBox.setChecked(self.do_not_ask_again)
-
         self.__notifyFinishCheckBox = QCheckBox("Notify when finish processing any task (Conversion, etc.)")
         self.__notifyFinishCheckBox.setChecked(self.notify_finish)
-        self.__showToolbarCheckBox = QCheckBox("Show Toolbar")
-        self.__showToolbarCheckBox.setChecked(self.show_toolbar)
         self.__showSecondaryToolBarChkBox = QCheckBox('Show Secondary Toolbar')
         self.__showSecondaryToolBarChkBox.setChecked(self.show_secondary_toolbar)
 
         lay = QVBoxLayout()
         lay.addLayout(dbLayout)
-        lay.addWidget(self.__doNotAskAgainCheckBox)
         lay.addWidget(self.__notifyFinishCheckBox)
-        lay.addWidget(self.__showToolbarCheckBox)
         lay.addWidget(self.__showSecondaryToolBarChkBox)
 
         generalGrpBox = QGroupBox('General')
@@ -135,9 +125,7 @@ class GeneralSettingsWidget(QWidget):
             "baseurl_anthro": self.__leAnthroBaseUrl.text(),
 
             "db": self.__dbLineEdit.text(),
-            "do_not_ask_again": self.__doNotAskAgainCheckBox.isChecked(),
             "notify_finish": self.__notifyFinishCheckBox.isChecked(),
-            "show_toolbar": self.__showToolbarCheckBox.isChecked(),
             "show_secondary_toolbar": self.__showSecondaryToolBarChkBox.isChecked(),
             "maximum_messages_in_parameter": self.__maximumMessagesInParameterSpinBox.value(),
             "show_as_markdown": self.__show_as_markdown.isChecked(),

@@ -15,8 +15,6 @@ from pyqt_openai.models import ChatMessageContainer
 from pyqt_openai.sqlite import SqliteDatabase
 from pyqt_openai.util.llamapage_script import GPTLLamaIndexWrapper
 
-os.environ['OPENAI_API_KEY'] = ''
-
 DB = SqliteDatabase()
 
 LLAMAINDEX_WRAPPER = GPTLLamaIndexWrapper()
@@ -36,26 +34,22 @@ LLAMAINDEX_WRAPPER = GPTLLamaIndexWrapper()
 # openai.log = "debug"
 
 ## OPENAI
-# OPENAI_BASE_URL = 'https://api.openai.com/v1'
+OPENAI_API_KEY = ''
 OPENAI_BASE_URL = 'http://outproxy:9000/v1'
 OPENAI_REQUEST_URL = OPENAI_BASE_URL + '/models'
-
 OPENAI_STRUCT = OpenAI( api_key = '', base_url = OPENAI_BASE_URL )
 
-OPENAI_API_VALID = False
+ANTHRO_API_KEY = ''
+ANTHRO_BASE_URL = 'https://api.openai.com/'
 
-def set_openai_enabled(f):
-    global OPENAI_API_VALID
-    OPENAI_API_VALID = f
-    return OPENAI_API_VALID
+def set_openai_api_key( api_key ):
+    OPENAI_API_KEY = api_key
+    OPENAI_STRUCT.api_key = api_key
 
-def is_openai_enabled():
-    return OPENAI_API_VALID
-
-def set_api_key_and_client_global(api_key):
-    # for subprocess (mostly)
-    os.environ['OPENAI_API_KEY'] = api_key
-    OPENAI_STRUCT.api_key = os.environ['OPENAI_API_KEY']
+def set_anthro_api_key( api_key ):
+    ANTHRO_API_KEY = api_key
+    #OPENAI_STRUCT.api_key = api_key
+    
 
 # https://platform.openai.com/docs/models/model-endpoint-compatibility
 ENDPOINT_DICT = {

@@ -5,11 +5,8 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QMessageBox, QPushButton, QS
     QHBoxLayout, \
     QLabel, QSpacerItem, QSizePolicy, QComboBox, QDialog
 
-from pyqt_openai import THREAD_ORDERBY, ICON_ADD, ICON_DELETE, ICON_IMPORT, ICON_SAVE, ICON_CLOSE, \
+from pyqt_openai import THREAD_ORDERBY, ICON_ADD, ICON_DELETE, ICON_IMPORT, ICON_CLOSE, \
     ICON_REFRESH
-from pyqt_openai.gpt_widget.left_sidebar.chatImportDialog import ChatImportDialog
-from pyqt_openai.gpt_widget.left_sidebar.exportDialog import ExportDialog
-from pyqt_openai.gpt_widget.left_sidebar.importDialog import ImportDialog
 from pyqt_openai.models import ChatThreadContainer
 from pyqt_openai.pyqt_openai_data import DB
 from pyqt_openai.widgets.baseNavWidget import BaseNavWidget
@@ -59,8 +56,6 @@ class ChatNavWidget(BaseNavWidget):
     added = Signal()
     clicked = Signal(int, str)
     cleared = Signal()
-    onImport = Signal(list)
-    onExport = Signal(list)
     onFavoriteClicked = Signal(bool)
 
     def __init__(self, columns, table_nm, parent=None):
@@ -74,23 +69,15 @@ class ChatNavWidget(BaseNavWidget):
         imageGenerationHistoryLbl.setText('History')
 
         self.__addBtn = Button()
-        self.__importBtn = Button()
-        self.__saveBtn = Button()
         self.__refreshBtn = Button()
 
         self.__addBtn.setStyleAndIcon(ICON_ADD)
-        self.__importBtn.setStyleAndIcon(ICON_IMPORT)
-        self.__saveBtn.setStyleAndIcon(ICON_SAVE)
         self.__refreshBtn.setStyleAndIcon(ICON_REFRESH)
 
         self.__addBtn.setToolTip('Add')
-        self.__importBtn.setToolTip('Import')
-        self.__saveBtn.setToolTip('Export')
         self.__refreshBtn.setToolTip('Refresh')
 
         self.__addBtn.clicked.connect(self.add)
-        self.__importBtn.clicked.connect(self.__import)
-        self.__saveBtn.clicked.connect(self.__export)
         self.__refreshBtn.clicked.connect(self.__refresh)
 
         self._delBtn.clicked.connect(self._delete)
@@ -101,8 +88,6 @@ class ChatNavWidget(BaseNavWidget):
         lay.addWidget(self.__addBtn)
         lay.addWidget(self._delBtn)
         lay.addWidget(self._clearBtn)
-        lay.addWidget(self.__importBtn)
-        lay.addWidget(self.__saveBtn)
         lay.addWidget(self.__refreshBtn)
         lay.setContentsMargins(0, 0, 0, 0)
 
@@ -152,29 +137,6 @@ class ChatNavWidget(BaseNavWidget):
         else:
             self.added.emit()
         self._model.select()
-
-    def __import(self):
-        dialog = ImportDialog(parent=self)
-        reply = dialog.exec()
-        if reply == QDialog.Accepted:
-            import_type = dialog.getImportType()
-            chatImportDialog = ChatImportDialog(import_type=import_type, parent=self)
-            reply = chatImportDialog.exec()
-            if reply == QDialog.Accepted:
-                data = chatImportDialog.getData()
-                self.onImport.emit(data)
-
-    def __export(self):
-        columns = ChatThreadContainer.get_keys()
-        data = DB.selectAllThread()
-        sort_by = THREAD_ORDERBY
-        if len(data) > 0:
-            dialog = ExportDialog(columns, data, sort_by=sort_by, parent=self)
-            reply = dialog.exec()
-            if reply == QDialog.Accepted:
-                self.onExport.emit(dialog.getSelectedIds())
-        else:
-            QMessageBox.information(self, 'Information', 'No data to export.')
 
     def refreshData(self, title=None):
         self._model.select()

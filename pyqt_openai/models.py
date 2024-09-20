@@ -123,15 +123,12 @@ class SettingsParamsContainer(Container):
     baseurl_openai: str = ''
     baseurl_anthro: str = ''
     db: str = DB_FILE_NAME
-    do_not_ask_again: bool = False
     notify_finish: bool = True
-    show_toolbar: bool = True
     show_secondary_toolbar: bool = True
     chat_column_to_show: List[str] = field(default_factory=ChatThreadContainer.get_keys)
     maximum_messages_in_parameter: int = MAXIMUM_MESSAGES_IN_PARAMETER
     show_as_markdown: bool = True
     apply_user_defined_styles: bool = False
-    run_at_startup: bool = True
 
 @dataclass
 class CustomizeParamsContainer(Container):
