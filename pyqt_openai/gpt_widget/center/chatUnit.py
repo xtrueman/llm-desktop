@@ -3,7 +3,7 @@ from PySide6.QtCore import Qt
 from PySide6.QtGui import QPalette
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QSpacerItem, QSizePolicy
 
-from pyqt_openai import DEFAULT_ICON_SIZE, ICON_COPY
+from pyqt_openai import ICON_COPY
 from pyqt_openai.gpt_widget.center.messageTextBrowser import MessageTextBrowser
 from pyqt_openai.widgets.button import Button
 from pyqt_openai.widgets.circleProfileImage import RoundedImage
@@ -18,14 +18,10 @@ class ChatUnit(QWidget):
         self._menuWidget = QWidget()
         lay = QHBoxLayout()
 
-        self._icon = RoundedImage()
-        self._icon.setMaximumSize(*DEFAULT_ICON_SIZE)
-
         self._copyBtn = Button()
         self._copyBtn.setStyleAndIcon(ICON_COPY)
         self._copyBtn.clicked.connect(self.__copy)
 
-        lay.addWidget(self._icon)
         lay.addSpacerItem(QSpacerItem(10, 10, QSizePolicy.Policy.MinimumExpanding))
         lay.addWidget(self._copyBtn)
         lay.setContentsMargins(2, 2, 2, 2)
@@ -60,11 +56,6 @@ class ChatUnit(QWidget):
     def getText(self):
         return self._lbl.toPlainText()
 
-    def getIcon(self):
-        return self._icon.getImage()
-
-    def setIcon(self, filename):
-        self._icon.setImage(filename)
 
     def getLbl(self):
         return self._lbl

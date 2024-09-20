@@ -11,8 +11,8 @@ from pyqt_openai.config_loader import CONFIG_MANAGER
 from pyqt_openai.gpt_widget.center.chatWidget import ChatWidget
 from pyqt_openai.gpt_widget.left_sidebar.chatNavWidget import ChatNavWidget
 from pyqt_openai.gpt_widget.right_sidebar.gptRightSideBarWidget import GPTRightSideBarWidget
-from pyqt_openai.models import ChatThreadContainer, ChatMessageContainer, CustomizeParamsContainer
-from pyqt_openai.pyqt_openai_data import DB, LLAMAINDEX_WRAPPER
+from pyqt_openai.models import ChatThreadContainer, ChatMessageContainer
+from pyqt_openai.pyqt_openai_data import DB
 from pyqt_openai.util.script import open_directory, get_generic_ext_out_of_qt_ext, message_list_to_txt, \
     conv_unit_to_html, \
     add_file_to_zip, getSeparator
@@ -32,8 +32,6 @@ class GPTMainWidget(QWidget):
         self.__show_setting = CONFIG_MANAGER.get_general_property('show_setting')
 
         self.__background_image = CONFIG_MANAGER.get_general_property('background_image')
-        self.__user_image = CONFIG_MANAGER.get_general_property('user_image')
-        self.__ai_image = CONFIG_MANAGER.get_general_property('ai_image')
 
         self.__maximum_messages_in_parameter = CONFIG_MANAGER.get_general_property('maximum_messages_in_parameter')
 
@@ -49,10 +47,6 @@ class GPTMainWidget(QWidget):
         self.__gptRightSideBarWidget = GPTRightSideBarWidget()
         self.__gptRightSideBarWidget.onToggleJSON.connect(self.__chatWidget.toggleJSON)
 
-        try:
-            self.__gptRightSideBarWidget.onDirectorySelected.connect(LLAMAINDEX_WRAPPER.set_directory)
-        except Exception as e:
-            QMessageBox.critical(self, "Error", str(e))
 
         self.__sideBarBtn = Button()
         self.__sideBarBtn.setStyleAndIcon(ICON_SIDEBAR)
@@ -147,12 +141,6 @@ class GPTMainWidget(QWidget):
     def showSecondaryToolBar(self, f):
         self.__menuWidget.setVisible(f)
         CONFIG_MANAGER.set_general_property('show_secondary_toolbar', f)
-
-    def refreshCustomizedInformation(self, container: CustomizeParamsContainer):
-        self.__background_image = container.background_image
-        self.__user_image = container.user_image
-        self.__ai_image = container.ai_image
-        self.__chatWidget.refreshCustomizedInformation(self.__background_image, self.__user_image, self.__ai_image)
 
     def __showChat(self, id, title):
         self.__showFavorite(False)

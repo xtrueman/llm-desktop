@@ -6,13 +6,12 @@ from pyqt_openai import DEFAULT_SHORTCUT_JSON_MODE, OPENAI_TEMPERATURE_RANGE, OP
     MAX_TOKENS_RANGE, TOP_P_RANGE, TOP_P_STEP, FREQUENCY_PENALTY_RANGE, PRESENCE_PENALTY_STEP, PRESENCE_PENALTY_RANGE, \
     FREQUENCY_PENALTY_STEP
 from pyqt_openai.config_loader import CONFIG_MANAGER
-from pyqt_openai.pyqt_openai_data import get_chat_model, init_llama
+from pyqt_openai.pyqt_openai_data import get_chat_model
 from pyqt_openai.util.script import getSeparator
 from pyqt_openai.widgets.linkLabel import LinkLabel
 
 
 class ChatPage(QWidget):
-    onToggleLlama = Signal(bool)
     onToggleJSON = Signal(bool)
 
     def __init__(self, parent=None):
@@ -32,7 +31,6 @@ class ChatPage(QWidget):
         self.__json_object = CONFIG_MANAGER.get_general_property('json_object')
 
         self.__use_max_tokens = CONFIG_MANAGER.get_general_property('use_max_tokens')
-        self.__use_llama_index = CONFIG_MANAGER.get_general_property('use_llama_index')
 
     def __initUi(self):
         systemlbl = QLabel('System')
@@ -136,11 +134,6 @@ class ChatPage(QWidget):
         jsonChkBox.setShortcut(DEFAULT_SHORTCUT_JSON_MODE)
         jsonChkBox.setToolTip('When enabled, you can send a JSON object to the API and the response will be in JSON format. Otherwise, it will be in plain text.')
 
-        llamaChkBox = QCheckBox()
-        llamaChkBox.setChecked(self.__use_llama_index)
-        llamaChkBox.toggled.connect(self.__use_llama_indexChecked)
-        llamaChkBox.setText('Use LlamaIndex')
-
         sep = getSeparator('horizontal')
 
         lay = QVBoxLayout()
@@ -150,7 +143,6 @@ class ChatPage(QWidget):
         lay.addWidget(modelCmbBox)
         lay.addWidget(streamChkBox)
         lay.addWidget(jsonChkBox)
-        lay.addWidget(llamaChkBox)
         lay.addWidget(sep)
         lay.addWidget(advancedSettingsGrpBox)
         lay.setAlignment(Qt.AlignmentFlag.AlignTop)
@@ -173,14 +165,6 @@ class ChatPage(QWidget):
         self.__json_object = f
         CONFIG_MANAGER.set_general_property('json_object', f)
         self.onToggleJSON.emit(f)
-
-    def __use_llama_indexChecked(self, f):
-        self.__use_llama_index = f
-        CONFIG_MANAGER.set_general_property('use_llama_index', f)
-        if f:
-            # Set llama index directory if it exists
-            init_llama()
-        self.onToggleLlama.emit(f)
 
     def __useMaxChecked(self, f):
         self.__use_max_tokens = f

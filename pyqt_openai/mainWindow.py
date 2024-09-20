@@ -16,7 +16,7 @@ from pyqt_openai import DEFAULT_SHORTCUT_FULL_SCREEN, \
     DEFAULT_SHORTCUT_SHOW_SECONDARY_TOOLBAR, DEFAULT_SHORTCUT_STACK_ON_TOP
 from pyqt_openai.config_loader import CONFIG_MANAGER
 from pyqt_openai.gpt_widget.gptMainWidget import GPTMainWidget
-from pyqt_openai.models import SettingsParamsContainer, CustomizeParamsContainer
+from pyqt_openai.models import SettingsParamsContainer
 import pyqt_openai.pyqt_openai_data
 from pyqt_openai.settings_dialog.settingsDialog import SettingsDialog
 from pyqt_openai.shortcutDialog import ShortcutDialog
@@ -32,10 +32,8 @@ class MainWindow(QMainWindow):
 
     def __initVal(self):
         self.__settingsParamContainer = SettingsParamsContainer()
-        self.__customizeParamsContainer = CustomizeParamsContainer()
 
         self.__initContainer(self.__settingsParamContainer)
-        self.__initContainer(self.__customizeParamsContainer)
 
     def __initUi(self):
         self.setWindowTitle(DEFAULT_APP_NAME)
@@ -55,7 +53,6 @@ class MainWindow(QMainWindow):
         self.resize(*APP_INITIAL_WINDOW_SIZE)
 
         self.__refreshColumns()
-        self.__gptWidget.refreshCustomizedInformation(self.__customizeParamsContainer)
 
     def __setActions(self):
         # menu action
@@ -141,8 +138,6 @@ class MainWindow(QMainWindow):
         # this api key should be yours
         pyqt_openai.pyqt_openai_data.set_openai_api_key( CONFIG_MANAGER.get_general_property('apikey_openai') )
         pyqt_openai.pyqt_openai_data.set_anthro_api_key( CONFIG_MANAGER.get_general_property('apikey_anthro') )
-        # Set llama index directory if it exists
-        pyqt_openai.pyqt_openai_data.init_llama()
 
     def __showShortcutsDialog(self):
         shortcutListWidget = ShortcutDialog(self)
@@ -161,14 +156,6 @@ class MainWindow(QMainWindow):
         self.__mainWidget.currentWidget().showSecondaryToolBar(f)
         self.__settingsParamContainer.show_secondary_toolbar = f
 
-    def __executeCustomizeDialog(self):
-        dialog = CustomizeDialog(self.__customizeParamsContainer, parent=self)
-        reply = dialog.exec()
-        if reply == QDialog.DialogCode.Accepted:
-            container = dialog.getParam()
-            self.__customizeParamsContainer = container
-            self.__refreshContainer(container)
-            self.__gptWidget.refreshCustomizedInformation(container)
 
     def __aiTypeChanged(self, i):
         self.__mainWidget.setCurrentIndex(i)
@@ -204,21 +191,6 @@ class MainWindow(QMainWindow):
                 change_list = []
                 if container.show_as_markdown != prev_show_as_markdown:
                     change_list.append("Show as Markdown")
-                result = show_message_box_after_change_to_restart(change_list)
-                if result == QMessageBox.StandardButton.Yes:
-                    restart_app()
-
-        elif isinstance(container, CustomizeParamsContainer):
-            prev_font_family = CONFIG_MANAGER.get_general_property('font_family')
-            prev_font_size = CONFIG_MANAGER.get_general_property('font_size')
-
-            for k, v in container.get_items():
-                CONFIG_MANAGER.set_general_property(k, v)
-
-            if container.font_family != prev_font_family or container.font_size != prev_font_size:
-                change_list = [
-                    "Font Change",
-                ]
                 result = show_message_box_after_change_to_restart(change_list)
                 if result == QMessageBox.StandardButton.Yes:
                     restart_app()

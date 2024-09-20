@@ -24,8 +24,6 @@ class ChatBrowser(QScrollArea):
 
     def __initVal(self):
         self.__cur_id = 0
-        self.__user_image = ''
-        self.__ai_image = ''
 
     def __initUi(self):
         lay = QVBoxLayout()
@@ -75,13 +73,8 @@ class ChatBrowser(QScrollArea):
         if role == 'user':
             chatUnit = UserChatUnit()
             chatUnit.setText(text)
-            chatUnit.setIcon(self.__user_image)
         else:
             chatUnit = AIChatUnit()
-            if chatUnit.getIcon():
-                pass
-            else:
-                chatUnit.setIcon(self.__ai_image)
             if stream_f:
                 unit = self.__getLastUnit()
                 if isinstance(unit, AIChatUnit):
@@ -291,15 +284,3 @@ class ChatBrowser(QScrollArea):
             # stream is False no matter what
             unit = self.__setLabel(arg.content, False, arg.role)
             self.__setResponseInfo(unit, arg)
-
-    def setUserImage(self, img):
-        self.__user_image = img
-        lbls = self.__getEveryUserLabels()
-        for lbl in lbls:
-            lbl.setIcon(img)
-
-    def setAIImage(self, img):
-        self.__ai_image = img
-        lbls = self.__getEveryAILabels()
-        for lbl in lbls:
-            lbl.setIcon(img)

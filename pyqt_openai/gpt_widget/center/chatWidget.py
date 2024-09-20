@@ -6,9 +6,9 @@ from pyqt_openai.gpt_widget.center.chatBrowser import ChatBrowser
 from pyqt_openai.gpt_widget.center.gptHome import GPTHome
 from pyqt_openai.gpt_widget.center.menuWidget import MenuWidget
 from pyqt_openai.gpt_widget.center.prompt import Prompt
-from pyqt_openai.gpt_widget.gptThread import LlamaOpenAIThread, GPTThread
+from pyqt_openai.gpt_widget.gptThread import AnthropicThread, GPTThread
 from pyqt_openai.models import ChatMessageContainer
-from pyqt_openai.pyqt_openai_data import LLAMAINDEX_WRAPPER, get_argument, DB
+from pyqt_openai.pyqt_openai_data import get_argument, DB
 from pyqt_openai.widgets.notifier import NotifierWidget
 from PySide6.QtCore import Signal
 from PySide6.QtWidgets import QStackedWidget, QWidget, QSizePolicy, QHBoxLayout, QVBoxLayout, QMessageBox
@@ -93,11 +93,6 @@ class ChatWidget(QWidget):
         self.__mainPrompt.setFocus()
         self.onMenuCloseClicked.emit()
 
-    def refreshCustomizedInformation(self, background_image=None, user_image=None, ai_image=None):
-        self.__homePage.setPixmap(background_image)
-        self.__browser.setUserImage(user_image)
-        self.__browser.setAIImage(ai_image)
-
     def setCurId(self, id):
         self.__cur_id = id
         self.__browser.setCurId(id)
@@ -117,30 +112,13 @@ class ChatWidget(QWidget):
             is_json_response_available = 1 if CONFIG_MANAGER.get_general_property('json_object') else 0
             frequency_penalty = CONFIG_MANAGER.get_general_property('frequency_penalty')
             presence_penalty = CONFIG_MANAGER.get_general_property('presence_penalty')
-            use_llama_index = CONFIG_MANAGER.get_general_property('use_llama_index')
             use_max_tokens = CONFIG_MANAGER.get_general_property('use_max_tokens')
-
-            # Get image files
-            images = self.__prompt.getImageBuffers()
 
             messages = self.__browser.getMessages(self.__maximum_messages_in_parameter)
 
             cur_text = self.__prompt.getContent()
 
             json_content = self.__prompt.getJSONContent()
-
-            is_llama_available = False
-            if use_llama_index:
-                # Check llamaindex is available
-                is_llama_available = LLAMAINDEX_WRAPPER.get_directory() != ''
-                if is_llama_available:
-                    if LLAMAINDEX_WRAPPER.is_query_engine_set():
-                        pass
-                    else:
-                        LLAMAINDEX_WRAPPER.set_query_engine(streaming=stream, similarity_top_k=3)
-                else:
-                    QMessageBox.warning(self, "Warning", 'LLAMA index is not available. Please check the directory path or disable the llama index.')
-                    return
 
             # Check JSON response is valid
             if is_json_response_available:
@@ -154,10 +132,11 @@ class ChatWidget(QWidget):
                     return
 
             # Get parameters for OpenAI
-            openai_param = get_argument(model, system, messages, cur_text, temperature, top_p, frequency_penalty, presence_penalty, stream,
-                                      use_max_tokens, max_tokens,
-                                      images,
-                                      is_llama_available, is_json_response_available, json_content)
+            openai_param = get_argument(
+                model, system, messages, cur_text, temperature, top_p, frequency_penalty, presence_penalty, stream,
+                use_max_tokens, max_tokens,
+                is_json_response_available, json_content
+            )
 
             # If there is no current conversation selected on the list to the left, make a new one.
             if self.__mainWidget.currentIndex() == 0:
@@ -184,11 +163,8 @@ class ChatWidget(QWidget):
             query_text = self.__prompt.getContent()
             self.__browser.showLabel(query_text, False, container)
 
-            # Run a different thread based on whether the llama-index is enabled or not.
-            if is_llama_available:
-                self.__t = LlamaOpenAIThread(openai_param, container, LLAMAINDEX_WRAPPER, query_text)
-            else:
-                self.__t = GPTThread(openai_param, info=container)
+            #self.__t = AnthropicThread(openai_param, container, query_text)
+            self.__t = GPTThread(openai_param, info=container)
             self.__t.started.connect(self.__beforeGenerated)
             self.__t.replyGenerated.connect(self.__browser.showLabel)
             self.__t.streamFinished.connect(self.__browser.streamFinished)

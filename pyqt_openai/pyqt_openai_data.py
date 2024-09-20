@@ -1,5 +1,5 @@
 """
-This is the file that contains the database and llama-index instance, OpenAI API related constants.
+This is the file that contains OpenAI API related constants.
 Also this checks the version of the OpenAI package and raises an exception if the version is below 1.0.
 """
 
@@ -13,16 +13,10 @@ import logging
 from pyqt_openai.config_loader import CONFIG_MANAGER
 from pyqt_openai.models import ChatMessageContainer
 from pyqt_openai.sqlite import SqliteDatabase
-from pyqt_openai.util.llamapage_script import GPTLLamaIndexWrapper
 
 DB = SqliteDatabase()
 
-LLAMAINDEX_WRAPPER = GPTLLamaIndexWrapper()
-
 # initialize
-
-#httpx_client = httpx.Client( headers = { "Accept-Encoding" : "identity" } )
-#openai.api_requestor.AsyncHTTPClient.connection = httpx_client
 
 # Настройка логирования
 # logging.basicConfig(
@@ -67,12 +61,6 @@ ENDPOINT_DICT = {
 }
 
 
-def get_model_endpoint(model):
-    for k, v in ENDPOINT_DICT.items():
-        endpoint_group = list(v)
-        if model in endpoint_group:
-            return k
-
 def get_chat_model():
     return ENDPOINT_DICT['/v1/chat/completions']
 
@@ -92,8 +80,7 @@ def get_message_obj(role, content):
 
 def get_argument(model, system, messages, cur_text, temperature, top_p, frequency_penalty, presence_penalty, stream,
                      use_max_tokens, max_tokens,
-                     images,
-                     is_llama_available=False, is_json_response_available=0,
+                     is_json_response_available=0,
                      json_content=None
                  ):
     try:
@@ -114,31 +101,8 @@ def get_argument(model, system, messages, cur_text, temperature, top_p, frequenc
             openai_arg['response_format'] = {"type": 'json_object'}
             cur_text += f' JSON {json_content}'
 
-        # If there is at least one image, it should add
-        if len(images) > 0:
-            multiple_images_content = []
-            for image in images:
-                multiple_images_content.append(
-                    {
-                        'type': 'image_url',
-                        'image_url': {
-                            'url': get_image_url_from_local(image),
-                        }
-                    }
-                )
+        openai_arg['messages'].append({"role": "user", "content": cur_text})
 
-            multiple_images_content = [
-                                          {
-                                              "type": "text",
-                                              "text": cur_text
-                                          }
-                                      ] + multiple_images_content[:]
-            openai_arg['messages'].append({"role": "user", "content": multiple_images_content})
-        else:
-            openai_arg['messages'].append({"role": "user", "content": cur_text})
-
-        if is_llama_available:
-            del openai_arg['messages']
         if use_max_tokens:
             openai_arg['max_tokens'] = max_tokens
 
@@ -154,10 +118,3 @@ def form_response(response, info: ChatMessageContainer):
     info.total_tokens = response.usage.total_tokens
     info.finish_reason = response.choices[0].finish_reason
     return info
-
-
-def init_llama():
-    llama_index_directory = CONFIG_MANAGER.get_general_property('llama_index_directory')
-    if llama_index_directory and CONFIG_MANAGER.get_general_property(
-            'use_llama_index'):
-        LLAMAINDEX_WRAPPER.set_directory(llama_index_directory)

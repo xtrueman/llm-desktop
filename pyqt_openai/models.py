@@ -5,8 +5,8 @@ This file is used to store the data classes that are used throughout the applica
 from dataclasses import dataclass, fields, field
 from typing import List
 
-from pyqt_openai import DB_FILE_NAME, DEFAULT_FONT_SIZE, DEFAULT_FONT_FAMILY, DEFAULT_USER_IMAGE_PATH, \
-    DEFAULT_AI_IMAGE_PATH, MAXIMUM_MESSAGES_IN_PARAMETER,\
+from pyqt_openai import DB_FILE_NAME, DEFAULT_FONT_SIZE, DEFAULT_FONT_FAMILY, \
+    MAXIMUM_MESSAGES_IN_PARAMETER,\
     DEFAULT_SHORTCUT_FIND_PREV, DEFAULT_SHORTCUT_FIND_NEXT, DEFAULT_SHORTCUT_PROMPT_BEGINNING, \
     DEFAULT_SHORTCUT_PROMPT_ENDING, DEFAULT_SHORTCUT_SUPPORT_PROMPT_COMMAND, DEFAULT_SHORTCUT_FULL_SCREEN, \
     DEFAULT_SHORTCUT_FIND, DEFAULT_SHORTCUT_JSON_MODE, DEFAULT_SHORTCUT_LEFT_SIDEBAR_WINDOW, \
@@ -129,14 +129,6 @@ class SettingsParamsContainer(Container):
     maximum_messages_in_parameter: int = MAXIMUM_MESSAGES_IN_PARAMETER
     show_as_markdown: bool = True
     apply_user_defined_styles: bool = False
-
-@dataclass
-class CustomizeParamsContainer(Container):
-    background_image: str = ''
-    user_image: str = DEFAULT_USER_IMAGE_PATH
-    ai_image: str = DEFAULT_AI_IMAGE_PATH
-    font_size: int = DEFAULT_FONT_SIZE
-    font_family: str = DEFAULT_FONT_FAMILY
 
 @dataclass
 class PromptGroupContainer(Container):
