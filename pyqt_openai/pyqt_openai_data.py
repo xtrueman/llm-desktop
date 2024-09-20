@@ -72,8 +72,6 @@ ENDPOINT_DICT = {
     '/vi/moderations': ['text-moderation-stable', 'text-moderation-latest']
 }
 
-# This doesn't need endpoint
-DALLE_ARR = ['dall-e-2', 'dall-e-3']
 
 def get_model_endpoint(model):
     for k, v in ENDPOINT_DICT.items():

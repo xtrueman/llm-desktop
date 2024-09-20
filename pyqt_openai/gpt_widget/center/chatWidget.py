@@ -93,9 +93,6 @@ class ChatWidget(QWidget):
         self.__mainPrompt.setFocus()
         self.onMenuCloseClicked.emit()
 
-    def setAIEnabled(self, f):
-        self.__prompt.setEnabled(f)
-
     def refreshCustomizedInformation(self, background_image=None, user_image=None, ai_image=None):
         self.__homePage.setPixmap(background_image)
         self.__browser.setUserImage(user_image)

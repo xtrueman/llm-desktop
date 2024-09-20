@@ -68,41 +68,16 @@ class ConfigManager:
             yaml.safe_dump(self.config, file)
 
     # Getter methods
-    def get_dalle(self):
-        return self.config.get('DALLE', {})
-
     def get_general(self):
         return self.config.get('General', {})
 
-    def get_replicate(self):
-        return self.config.get('REPLICATE', {})
-
-    def get_dalle_property(self, key):
-        return self.config.get('DALLE', {}).get(key)
-
     def get_general_property(self, key):
         return self.config.get('General', {}).get(key)
-
-    def get_replicate_property(self, key):
-        return self.config.get('REPLICATE', {}).get(key)
-
-    # Setter methods
-    def set_dalle_property(self, key, value):
-        if 'DALLE' not in self.config:
-            self.config['DALLE'] = {}
-        self.config['DALLE'][key] = value
-        self._save_yaml()
 
     def set_general_property(self, key, value):
         if 'General' not in self.config:
             self.config['General'] = {}
         self.config['General'][key] = value
-        self._save_yaml()
-
-    def set_replicate_property(self, key, value):
-        if 'REPLICATE' not in self.config:
-            self.config['REPLICATE'] = {}
-        self.config['REPLICATE'][key] = value
         self._save_yaml()
 
 # TODO WILL_REMOVE_AFTER v1.2.0

@@ -9,7 +9,7 @@ from PySide6.QtWidgets import QMainWindow, QToolBar, QHBoxLayout, QDialog, QWidg
     QMessageBox, QCheckBox
 
 from pyqt_openai import DEFAULT_SHORTCUT_FULL_SCREEN, \
-    APP_INITIAL_WINDOW_SIZE, DEFAULT_APP_NAME, DEFAULT_APP_ICON, ICON_STACKONTOP, ICON_CUSTOMIZE, ICON_FULLSCREEN, \
+    APP_INITIAL_WINDOW_SIZE, DEFAULT_APP_NAME, DEFAULT_APP_ICON, ICON_STACKONTOP, ICON_FULLSCREEN, \
     ICON_CLOSE, \
     DEFAULT_SHORTCUT_SETTING, ICON_GITHUB, ICON_DISCORD, PAYPAL_URL, KOFI_URL, \
     DISCORD_URL, GITHUB_URL, DEFAULT_SHORTCUT_FOCUS_MODE, ICON_FOCUS_MODE, ICON_SETTING, DEFAULT_SHORTCUT_SHOW_TOOLBAR, \
@@ -17,13 +17,10 @@ from pyqt_openai import DEFAULT_SHORTCUT_FULL_SCREEN, \
 from pyqt_openai.aboutDialog import AboutDialog
 from pyqt_openai.apiWidget import ApiWidget
 from pyqt_openai.config_loader import CONFIG_MANAGER
-from pyqt_openai.customizeDialog import CustomizeDialog
-from pyqt_openai.dalle_widget.dalleMainWidget import DallEMainWidget
 from pyqt_openai.doNotAskAgainDialog import DoNotAskAgainDialog
 from pyqt_openai.gpt_widget.gptMainWidget import GPTMainWidget
 from pyqt_openai.models import SettingsParamsContainer, CustomizeParamsContainer
 from pyqt_openai.pyqt_openai_data import init_llama
-from pyqt_openai.replicate_widget.replicateMainWidget import ReplicateMainWidget
 from pyqt_openai.settings_dialog.settingsDialog import SettingsDialog
 from pyqt_openai.shortcutDialog import ShortcutDialog
 from pyqt_openai.util.script import restart_app, show_message_box_after_change_to_restart
@@ -47,13 +44,9 @@ class MainWindow(QMainWindow):
         self.setWindowTitle(DEFAULT_APP_NAME)
 
         self.__gptWidget = GPTMainWidget(self)
-        self.__dallEWidget = DallEMainWidget(self)
-        self.__replicateWidget = ReplicateMainWidget(self)
 
         self.__mainWidget = QStackedWidget()
         self.__mainWidget.addWidget(self.__gptWidget)
-        self.__mainWidget.addWidget(self.__dallEWidget)
-        self.__mainWidget.addWidget(self.__replicateWidget)
 
         self.__setActions()
         self.__setMenuBar()
@@ -66,9 +59,6 @@ class MainWindow(QMainWindow):
         if os.environ['OPENAI_API_KEY']:
             self.__apiWidget.setApi()
         # if it is empty
-        else:
-            self.__setAIEnabled(False)
-            self.__apiWidget.showApiCheckPreviewLbl(False)
 
         self.setCentralWidget(self.__mainWidget)
         self.resize(*APP_INITIAL_WINDOW_SIZE)
@@ -129,22 +119,7 @@ class MainWindow(QMainWindow):
         self.__discordAction.triggered.connect(lambda: webbrowser.open(DISCORD_URL))
 
         # toolbar action
-        self.__chooseAiAction = QWidgetAction(self)
-        self.__chooseAiCmbBox = QComboBox()
-        self.__chooseAiCmbBox.addItems(['Chat', 'Image', 'Replicate'])
-        self.__chooseAiCmbBox.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.MinimumExpanding)
-        self.__chooseAiCmbBox.currentIndexChanged.connect(self.__aiTypeChanged)
-        self.__chooseAiAction.setDefaultWidget(self.__chooseAiCmbBox)
-
-        self.__customizeAction = QWidgetAction(self)
-        self.__customizeBtn = Button()
-        self.__customizeBtn.setStyleAndIcon(ICON_CUSTOMIZE)
-        self.__customizeBtn.clicked.connect(self.__executeCustomizeDialog)
-        self.__customizeAction.setDefaultWidget(self.__customizeBtn)
-        self.__customizeBtn.setToolTip('Customize')
-
         self.__apiWidget = ApiWidget(self)
-        self.__apiWidget.onAIEnabled.connect(self.__setAIEnabled)
 
         self.__apiAction = QWidgetAction(self)
         self.__apiAction.setDefaultWidget(self.__apiWidget)
@@ -207,8 +182,6 @@ class MainWindow(QMainWindow):
     def __setToolBar(self):
         self.__toolbar = QToolBar()
         lay = self.__toolbar.layout()
-        self.__toolbar.addAction(self.__chooseAiAction)
-        self.__toolbar.addAction(self.__customizeAction)
         self.__toolbar.addAction(self.__apiAction)
         self.__toolbar.setLayout(lay)
         self.__toolbar.setMovable(False)
@@ -228,10 +201,6 @@ class MainWindow(QMainWindow):
         self.__apiWidget.setApiKeyAndClient(CONFIG_MANAGER.get_general_property('API_KEY'))
         # Set llama index directory if it exists
         init_llama()
-
-    def __setAIEnabled(self, f):
-        self.__gptWidget.setAIEnabled(f)
-        self.__dallEWidget.setAIEnabled(f)
 
     def __showAboutDialog(self):
         aboutDialog = AboutDialog(self)
@@ -326,8 +295,6 @@ class MainWindow(QMainWindow):
         image_column_to_show = self.__settingsParamContainer.image_column_to_show
         if image_column_to_show.__contains__('data'):
             image_column_to_show.remove('data')
-        self.__dallEWidget.setColumns(self.__settingsParamContainer.image_column_to_show)
-        self.__replicateWidget.setColumns(self.__settingsParamContainer.image_column_to_show)
 
     def __showSettingsDialog(self):
         dialog = SettingsDialog(parent=self)

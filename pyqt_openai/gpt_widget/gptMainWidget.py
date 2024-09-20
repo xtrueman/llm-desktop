@@ -198,9 +198,6 @@ class GPTMainWidget(QWidget):
         self.__menuWidget.setVisible(f)
         CONFIG_MANAGER.set_general_property('show_secondary_toolbar', f)
 
-    def setAIEnabled(self, f):
-        self.__chatWidget.setAIEnabled(f)
-
     def refreshCustomizedInformation(self, container: CustomizeParamsContainer):
         self.__background_image = container.background_image
         self.__user_image = container.user_image
@@ -273,4 +270,3 @@ class GPTMainWidget(QWidget):
             else:
                 lst = [ChatMessageContainer(**dict(c)) for c in lst]
                 self.__browser.replaceThreadForFavorite(lst)
-        self.__chatWidget.setAIEnabled(not f and is_openai_enabled())

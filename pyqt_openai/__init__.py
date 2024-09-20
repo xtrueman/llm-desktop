@@ -80,7 +80,6 @@ QUICKSTART_MANUAL_URL = 'https://medium.com/@yjg30737/what-is-vividnode-how-to-u
 LLAMAINDEX_URL = 'https://medium.com/@yjg30737/what-is-llamaindex-9b821d66568f'
 HOW_TO_GET_OPENAI_API_KEY_URL = 'https://medium.com/@yjg30737/how-to-get-your-openai-api-key-e2193850932e'
 HOW_TO_EXPORT_CHATGPT_CONVERSATION_HISTORY_URL = 'https://medium.com/@yjg30737/how-to-export-your-chatgpt-conversation-history-caa0946d6349'
-HOW_TO_REPLICATE = 'https://medium.com/@yjg30737/10a2cb983ceb'
 
 COLUMN_TO_EXCLUDE_FROM_SHOW_HIDE_CHAT = ['id']
 COLUMN_TO_EXCLUDE_FROM_SHOW_HIDE_IMAGE = ['id', 'data']
@@ -119,7 +118,6 @@ ICON_ADD = os.path.join(ICON_PATH, 'add.svg')
 ICON_CASE = os.path.join(ICON_PATH, 'case.svg')
 ICON_CLOSE = os.path.join(ICON_PATH, 'close.svg')
 ICON_COPY = os.path.join(ICON_PATH, 'copy.svg')
-ICON_CUSTOMIZE = os.path.join(ICON_PATH, 'customize.svg')
 ICON_DELETE = os.path.join(ICON_PATH, 'delete.svg')
 ICON_DISCORD = os.path.join(ICON_PATH, 'discord.svg')
 ICON_EXPORT = os.path.join(ICON_PATH, 'export.svg')
@@ -354,41 +352,6 @@ CONFIG_DATA = {
         'apply_user_defined_styles': False,
         'focus_mode': False,
     },
-    'DALLE': {
-        'quality': 'standard',
-        'show_history': True,
-        'n': 1,
-        'show_setting': True,
-        'size': '1024x1024',
-        'directory': QFILEDIALOG_DEFAULT_DIRECTORY,
-        'is_save': True,
-        'continue_generation': False,
-        'number_of_images_to_create': 2,
-        'style': 'vivid',
-        'response_format': 'b64_json',
-        'save_prompt_as_text': True,
-        'show_prompt_on_image': False,
-        'prompt_type': 1,
-        'width': 1024,
-        'height': 1024,
-        'prompt': "Astronaut in a jungle, cold color palette, muted colors, detailed, 8k"
-    },
-    'REPLICATE': {
-        'REPLICATE_API_TOKEN': '',
-        'show_history': True,
-        'model': 'stability-ai/sdxl:39ed52f2a78e934b3ba6e2a89f5b1c712de7dfea535525255b1aa35c5565e08b',
-        'show_setting': True,
-        'width': 768,
-        'height': 768,
-        'prompt': "Astronaut in a jungle, cold color palette, muted colors, detailed, 8k",
-        'negative_prompt': "ugly, deformed, noisy, blurry, distorted",
-        'directory': QFILEDIALOG_DEFAULT_DIRECTORY,
-        'is_save': True,
-        'continue_generation': False,
-        'number_of_images_to_create': 2,
-        'save_prompt_as_text': True,
-        'show_prompt_on_image': False
-    }
 }
 
 # Update the __all__ list with the PEP8 standard dunder names
