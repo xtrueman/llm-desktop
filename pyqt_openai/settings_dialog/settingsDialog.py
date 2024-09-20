@@ -28,13 +28,6 @@ class SettingsDialog(QDialog):
 
         self.setLayout(lay)
 
-    def __accept(self):
-        # If DB file name is empty
-        if self.__generalSettingsWidget.db.strip() == '':
-            QMessageBox.critical(self, 'Error', 'Database name cannot be empty.')
-        else:
-            self.accept()
-
     def getParam(self):
         return SettingsParamsContainer(
             **self.__generalSettingsWidget.getParam(),

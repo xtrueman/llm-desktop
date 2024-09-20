@@ -5,7 +5,7 @@ This file is used to store the data classes that are used throughout the applica
 from dataclasses import dataclass, fields, field
 from typing import List
 
-from pyqt_openai import DB_FILE_NAME, DEFAULT_FONT_SIZE, DEFAULT_FONT_FAMILY, \
+from pyqt_openai import DEFAULT_FONT_SIZE, DEFAULT_FONT_FAMILY, \
     MAXIMUM_MESSAGES_IN_PARAMETER,\
     DEFAULT_SHORTCUT_FIND_PREV, DEFAULT_SHORTCUT_FIND_NEXT, DEFAULT_SHORTCUT_PROMPT_BEGINNING, \
     DEFAULT_SHORTCUT_PROMPT_ENDING, DEFAULT_SHORTCUT_SUPPORT_PROMPT_COMMAND, DEFAULT_SHORTCUT_FULL_SCREEN, \
@@ -122,7 +122,6 @@ class SettingsParamsContainer(Container):
     apikey_anthro: str = ''
     baseurl_openai: str = ''
     baseurl_anthro: str = ''
-    db: str = DB_FILE_NAME
     notify_finish: bool = True
     show_secondary_toolbar: bool = True
     chat_column_to_show: List[str] = field(default_factory=ChatThreadContainer.get_keys)

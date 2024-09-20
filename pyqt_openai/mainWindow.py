@@ -171,7 +171,6 @@ class MainWindow(QMainWindow):
 
     def __refreshContainer(self, container):
         if isinstance(container, SettingsParamsContainer):
-            prev_db = CONFIG_MANAGER.get_general_property('db')
             prev_show_secondary_toolbar = CONFIG_MANAGER.get_general_property('show_secondary_toolbar')
             prev_show_as_markdown = CONFIG_MANAGER.get_general_property('show_as_markdown')
 
@@ -179,8 +178,6 @@ class MainWindow(QMainWindow):
                 CONFIG_MANAGER.set_general_property(k, v)
 
             # If db name is changed
-            if container.db != prev_db:
-                QMessageBox.information(self, 'Info', "The name of the reference target database has been changed. The changes will take effect after a restart.")
             # If show_secondary_toolbar is changed
             if container.show_secondary_toolbar != prev_show_secondary_toolbar:
                 for i in range(self.__mainWidget.count()):

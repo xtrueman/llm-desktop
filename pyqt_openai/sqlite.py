@@ -18,7 +18,7 @@ from pyqt_openai.models import ImagePromptContainer, ChatMessageContainer, Promp
 
 
 def get_db_filename():
-    db_filename = CONFIG_MANAGER.get_general_property('db') + '.db'
+    db_filename = 'conv.db'
 
     # TODO WILL_REMOVE_AFTER v1.2.0
     prev_config_path = os.path.join(ROOT_DIR, db_filename) if os.path.exists(

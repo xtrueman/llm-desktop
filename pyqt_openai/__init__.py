@@ -137,8 +137,6 @@ ICON_SEND = os.path.join(ICON_PATH, 'send.svg')
 
 ## CUSTOMIZE
 DEFAULT_ICON_SIZE = (24, 24)
-DEFAULT_USER_IMAGE_PATH = ICON_USER
-DEFAULT_AI_IMAGE_PATH = ICON_OPENAI
 DEFAULT_FONT_SIZE = 14
 DEFAULT_FONT_FAMILY = 'Arial'
 
@@ -195,7 +193,6 @@ MAIN_INDEX = 'main.py'
 IMAGE_DEFAULT_SAVE_DIRECTORY = 'image_result'
 INI_FILE_NAME = os.path.join(get_config_directory(), 'config.yaml')
 
-DB_FILE_NAME = 'conv'
 FILE_NAME_LENGTH = 32
 QFILEDIALOG_DEFAULT_DIRECTORY = os.path.expanduser('~')
 
@@ -217,8 +214,6 @@ INDENT_SIZE = 4
 NOTIFIER_MAX_CHAR = 100
 
 # DB
-DB_NAME_REGEX = '[a-zA-Z0-9]{1,20}'
-
 THREAD_TABLE_NAME_OLD = 'conv_tb'
 THREAD_TRIGGER_NAME_OLD = 'conv_tr'
 MESSAGE_TABLE_NAME_OLD = 'conv_unit_tb'
@@ -305,17 +300,14 @@ if os.path.exists(ALEX_BROGAN_PROMPT_FILENAME):
 # ----------------------------
 CONFIG_DATA = {
     'General': {
-        'TAB_IDX': 0,
         'show_chat_list': True,
         'stream': True,
         'apikey_openai': '',
         'apikey_anthro': '',
         'baseurl_openai': '',
         'baseurl_openai': '',
-        'db': 'conv',
         'model': 'gpt-4o',
         'show_setting': True,
-        'use_llama_index': False,
         'show_prompt': True,
         'system': 'You are a helpful assistant.',
         'notify_finish': True,
@@ -331,11 +323,8 @@ CONFIG_DATA = {
         'show_as_markdown': True,
         'use_max_tokens': False,
         'background_image': '',
-        'user_image': DEFAULT_USER_IMAGE_PATH,
-        'ai_image': DEFAULT_AI_IMAGE_PATH,
         'font_size': DEFAULT_FONT_SIZE,
         'font_family': DEFAULT_FONT_FAMILY,
-        'llama_index_directory': '',
         'apply_user_defined_styles': False,
         'focus_mode': False,
     },

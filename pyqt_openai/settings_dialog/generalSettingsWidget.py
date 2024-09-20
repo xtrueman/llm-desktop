@@ -1,5 +1,4 @@
 from pyqt_openai import COLUMN_TO_EXCLUDE_FROM_SHOW_HIDE_CHAT, \
-    DB_NAME_REGEX, \
     MAXIMUM_MESSAGES_IN_PARAMETER_RANGE
 from pyqt_openai.config_loader import CONFIG_MANAGER
 from pyqt_openai.widgets.checkBoxListWidget import CheckBoxListWidget
@@ -23,7 +22,7 @@ class GeneralSettingsWidget(QWidget):
         self.apikey_anthro = CONFIG_MANAGER.get_general_property('apikey_anthro')
         self.baseurl_openai = CONFIG_MANAGER.get_general_property('baseurl_openai')
         self.baseurl_anthro = CONFIG_MANAGER.get_general_property('baseurl_anthro')
-        self.db = CONFIG_MANAGER.get_general_property('db')
+
         self.notify_finish = CONFIG_MANAGER.get_general_property('notify_finish')
         self.show_secondary_toolbar = CONFIG_MANAGER.get_general_property('show_secondary_toolbar')
         self.chat_column_to_show = CONFIG_MANAGER.get_general_property('chat_column_to_show')
@@ -69,16 +68,6 @@ class GeneralSettingsWidget(QWidget):
         grpboxAPIKeys = QGroupBox('API keys')
         grpboxAPIKeys.setLayout( layout )
 
-        # Database setting
-        dbLayout = QHBoxLayout()
-        self.__dbLineEdit = QLineEdit(self.db)
-        self.__validator = QRegularExpressionValidator()
-        re = QRegularExpression(DB_NAME_REGEX)
-        self.__validator.setRegularExpression(re)
-        self.__dbLineEdit.setValidator(self.__validator)
-
-        dbLayout.addWidget(QLabel("Name of target database (without extension)"))
-        dbLayout.addWidget(self.__dbLineEdit)
 
         # Checkboxes
         self.__notifyFinishCheckBox = QCheckBox("Notify when finish processing any task (Conversion, etc.)")
@@ -87,7 +76,6 @@ class GeneralSettingsWidget(QWidget):
         self.__showSecondaryToolBarChkBox.setChecked(self.show_secondary_toolbar)
 
         lay = QVBoxLayout()
-        lay.addLayout(dbLayout)
         lay.addWidget(self.__notifyFinishCheckBox)
         lay.addWidget(self.__showSecondaryToolBarChkBox)
 
@@ -124,7 +112,6 @@ class GeneralSettingsWidget(QWidget):
             "baseurl_openai": self.__leOpenAIBaseUrl.text(),
             "baseurl_anthro": self.__leAnthroBaseUrl.text(),
 
-            "db": self.__dbLineEdit.text(),
             "notify_finish": self.__notifyFinishCheckBox.isChecked(),
             "show_secondary_toolbar": self.__showSecondaryToolBarChkBox.isChecked(),
             "maximum_messages_in_parameter": self.__maximumMessagesInParameterSpinBox.value(),

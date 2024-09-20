@@ -78,11 +78,12 @@ def get_image_url_from_local(image):
 def get_message_obj(role, content):
     return {"role": role, "content": content}
 
-def get_argument(model, system, messages, cur_text, temperature, top_p, frequency_penalty, presence_penalty, stream,
-                     use_max_tokens, max_tokens,
-                     is_json_response_available=0,
-                     json_content=None
-                 ):
+def get_argument(
+        model, system, messages, cur_text, temperature, top_p, frequency_penalty, presence_penalty, stream,
+        use_max_tokens, max_tokens,
+        is_json_response_available=0,
+        json_content=None
+    ):
     try:
         system_obj = get_message_obj("system", system)
         messages = [system_obj] + messages
