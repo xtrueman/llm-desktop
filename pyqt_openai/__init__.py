@@ -69,9 +69,6 @@ def get_config_directory():
 CONTACT = pyproject_data["project"]["authors"][0]['email']
 APP_INITIAL_WINDOW_SIZE = (1280, 768)
 
-TRANSPARENT_RANGE = 20, 100
-TRANSPARENT_INIT_VAL = 100
-
 LICENSE = pyproject_data["project"]["license"]['text']
 LICENSE_URL = 'https://github.com/yjg30737/pyqt-openai/blob/main/LICENSE'
 KOFI_URL = 'https://ko-fi.com/junggyuyoon'

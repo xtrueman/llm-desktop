@@ -11,7 +11,7 @@ from PySide6.QtWidgets import QMainWindow, QToolBar, QHBoxLayout, QDialog, QWidg
 from pyqt_openai import DEFAULT_SHORTCUT_FULL_SCREEN, \
     APP_INITIAL_WINDOW_SIZE, DEFAULT_APP_NAME, DEFAULT_APP_ICON, ICON_STACKONTOP, ICON_CUSTOMIZE, ICON_FULLSCREEN, \
     ICON_CLOSE, \
-    DEFAULT_SHORTCUT_SETTING, TRANSPARENT_RANGE, TRANSPARENT_INIT_VAL, ICON_GITHUB, ICON_DISCORD, PAYPAL_URL, KOFI_URL, \
+    DEFAULT_SHORTCUT_SETTING, ICON_GITHUB, ICON_DISCORD, PAYPAL_URL, KOFI_URL, \
     DISCORD_URL, GITHUB_URL, DEFAULT_SHORTCUT_FOCUS_MODE, ICON_FOCUS_MODE, ICON_SETTING, DEFAULT_SHORTCUT_SHOW_TOOLBAR, \
     DEFAULT_SHORTCUT_SHOW_SECONDARY_TOOLBAR, DEFAULT_SHORTCUT_STACK_ON_TOP
 from pyqt_openai.aboutDialog import AboutDialog
@@ -143,21 +143,6 @@ class MainWindow(QMainWindow):
         self.__customizeAction.setDefaultWidget(self.__customizeBtn)
         self.__customizeBtn.setToolTip('Customize')
 
-        self.__transparentAction = QWidgetAction(self)
-        self.__transparentSpinBox = QSpinBox()
-        self.__transparentSpinBox.setRange(*TRANSPARENT_RANGE)
-        self.__transparentSpinBox.setValue(TRANSPARENT_INIT_VAL)
-        self.__transparentSpinBox.valueChanged.connect(self.__setTransparency)
-        self.__transparentSpinBox.setToolTip('Set Transparency of Window')
-        self.__transparentSpinBox.setMinimumWidth(100)
-
-        lay = QHBoxLayout()
-        lay.addWidget(self.__transparentSpinBox)
-
-        transparencyActionWidget = QWidget(self)
-        transparencyActionWidget.setLayout(lay)
-        self.__transparentAction.setDefaultWidget(transparencyActionWidget)
-
         self.__apiWidget = ApiWidget(self)
         self.__apiWidget.onAIEnabled.connect(self.__setAIEnabled)
 
@@ -224,7 +209,6 @@ class MainWindow(QMainWindow):
         lay = self.__toolbar.layout()
         self.__toolbar.addAction(self.__chooseAiAction)
         self.__toolbar.addAction(self.__customizeAction)
-        self.__toolbar.addAction(self.__transparentAction)
         self.__toolbar.addAction(self.__apiAction)
         self.__toolbar.setLayout(lay)
         self.__toolbar.setMovable(False)
@@ -264,9 +248,6 @@ class MainWindow(QMainWindow):
             # Qt.WindowType.WindowCloseButtonHint is added to prevent the close button get deactivated
             self.setWindowFlags(self.windowFlags() & ~Qt.WindowType.WindowStaysOnTopHint | Qt.WindowType.WindowCloseButtonHint)
         self.show()
-
-    def __setTransparency(self, v):
-        self.setWindowOpacity(v / 100)
 
     def __toggleSecondaryToolBar(self, f):
         self.__showSecondaryToolBarAction.setChecked(f)
