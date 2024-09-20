@@ -292,9 +292,6 @@ class MainWindow(QMainWindow):
 
     def __refreshColumns(self):
         self.__gptWidget.setColumns(self.__settingsParamContainer.chat_column_to_show)
-        image_column_to_show = self.__settingsParamContainer.image_column_to_show
-        if image_column_to_show.__contains__('data'):
-            image_column_to_show.remove('data')
 
     def __showSettingsDialog(self):
         dialog = SettingsDialog(parent=self)
